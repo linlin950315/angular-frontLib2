@@ -3,7 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
 const routes: Routes = [
-  { path:'home', component: HomeComponent},
+  { path: '', redirectTo: 'home', pathMatch: 'full' }, // 默认跳转到 home
+  { path: 'home', component: HomeComponent }, // 主页
+  { path: 'admin',
+    // 懒加载 Admin 模块
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+  },
 ];
 
 @NgModule({

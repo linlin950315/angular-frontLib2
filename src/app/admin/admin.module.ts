@@ -1,16 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import { AdminRoutingModule } from './admin-routing.module';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
-import { BookListComponent } from './book-list/book-list.component';
+import { AdminRoutingModule } from './admin-routing.module';
 import { BookFormComponent } from './book-form/book-form.component';
+import { BookListComponent } from './book-list/book-list.component';
 
 
 @NgModule({
   declarations: [
     AdminDashboardComponent,
-    BookListComponent,
+    BookListComponent,// 声明组件
     BookFormComponent
   ],
   imports: [
