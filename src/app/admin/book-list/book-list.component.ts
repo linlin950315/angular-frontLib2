@@ -9,7 +9,7 @@ import { BookService } from '../services/book.service';
 //export class BookListComponent{}
 export class BookListComponent implements OnInit{
   books: any[] = [];
-  selectedBooks: number[] = []; // 存储选中的书籍 ID
+  selectedBook: number[] = []; // 存储选中的书籍 ID
   constructor(private bookService: BookService) {}
 //构造函数中注入 BookService，用于调用 API 获取书籍数据。
 
@@ -40,23 +40,30 @@ export class BookListComponent implements OnInit{
   }
   // 切换选中状态
   toggleSelection(bookId: number) {
-    const index = this.selectedBooks.indexOf(bookId);
+    const index = this.selectedBook.indexOf(bookId);
     if (index === -1) {
-      this.selectedBooks.push(bookId);
+      this.selectedBook.push(bookId);
     } else {
-      this.selectedBooks.splice(index, 1);
+      this.selectedBook.splice(index, 1); //array.splice(start, deleteCount, item1, item2, ...);
+      // start：表示要修改的起始索引位置（从0计数）。
+      //deleteCount：表示要删除的元素数量。如果为0，则不删除任何元素。
+      //item1, item2, ...：要插入到数组的元素。
     }
   }
-  deleteBook(bookId: number) {
-    if (confirm('确定删除这本书吗？')) {
-      this.bookService.deleteBook(bookId).subscribe(
-        () => {
-          this.books = this.books.filter(book => book.book_id !== bookId);
+  deleteBook(): void {
+    // 遍历选中的书籍，依次发送删除请求
+    this.selectedBook.forEach(bookId => {
+      this.bookService.deleteBook(bookId).subscribe({
+        next: () => {
+          // 成功后从 books 列表中移除该书籍
+          this.books = this.books.filter(book => book.bookId !== bookId);
         },
-        (error) => {
-          console.error('删除书籍失败', error);
-        }
-      );
-    }
+      });
+    });
+
+    // 清空已选中的书籍
+    this.selectedBook = [];
   }
-}
+  }
+
+
