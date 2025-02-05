@@ -1,6 +1,10 @@
 <p>book-list works!</p>
 <h2>📚 书籍列表</h2>
 <button (click)="deleteBook()" [disabled]="selectedBook.length === 0">删除选中的书籍</button>
+<button (click)="editSelectedBook()" [disabled]="selectedBook.length === 0">
+  修改选中书籍
+</button>
+
 <table border="1">
   <thead>
     <tr>

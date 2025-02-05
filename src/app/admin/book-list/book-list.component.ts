@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { BookService } from '../services/book.service';
 
 @Component({
@@ -10,7 +11,11 @@ import { BookService } from '../services/book.service';
 export class BookListComponent implements OnInit{
   books: any[] = [];
   selectedBook: number[] = []; // 存储选中的书籍 ID
-  constructor(private bookService: BookService) {}
+  constructor(
+    private bookService: BookService,
+     private router: Router, //router：用于 跳转页面。
+
+  ) {}
 //构造函数中注入 BookService，用于调用 API 获取书籍数据。
 
   ngOnInit(): void {//ngOnInit() 是 Angular 生命周期钩子，在组件创建后会自动执行。
@@ -63,6 +68,14 @@ export class BookListComponent implements OnInit{
 
     // 清空已选中的书籍
     this.selectedBook = [];
+  }
+  //TODO 和bookform.component.ts中的代码通信
+  editSelectedBook(): void {
+    if (this.selectedBook.length === 1) { // 只允许选择一个书籍进行修改
+      this.router.navigate(['/admin/book', this.selectedBook[0]]);
+    } else {
+      alert('请只选择一本书进行修改！');
+    }
   }
   }
 

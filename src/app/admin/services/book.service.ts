@@ -9,14 +9,14 @@ export class BookService {
   private apiUrl = 'http://localhost:8080';
   constructor(private http: HttpClient) { }
 
-  //TODO
+  //OK
   getBooks(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/admin/book`);
   }
 
   // 根据id获取书籍
-  getBookById(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  getBookById(bookId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/admin/book/${bookId}`);
   }
 
   addBook(book: any): Observable<any> {
@@ -26,7 +26,7 @@ export class BookService {
   updateBook(id: number, book: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${id}`, book);
   }
-//delete one book
+//delete OK
   deleteBook(bookId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/admin/book/${bookId}`);
   }
