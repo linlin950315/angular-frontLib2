@@ -9,7 +9,7 @@ import { BookService } from '../services/book.service';
 })
 //export class BookListComponent{}
 export class BookListComponent implements OnInit{
-  books: any[] = [];
+  bookForm: any[] = [];
   selectedBook: number[] = []; // 存储选中的书籍 ID
   constructor(
     private bookService: BookService,
@@ -25,7 +25,7 @@ export class BookListComponent implements OnInit{
   loadBooks(): void {
     this.bookService.getBooks().subscribe({
       next: (data) => {
-        this.books = data.map(book => ({
+        this.bookForm = data.map(book => ({
           bookId: book.book_id,
           bookName: book.book_name || '未知书名',
           categoryId: book.categoryId || '无分类',
@@ -61,7 +61,7 @@ export class BookListComponent implements OnInit{
       this.bookService.deleteBook(bookId).subscribe({
         next: () => {
           // 成功后从 books 列表中移除该书籍
-          this.books = this.books.filter(book => book.bookId !== bookId);
+          this.bookForm = this.bookForm.filter(book => book.bookId !== bookId);
         },
       });
     });
@@ -69,14 +69,16 @@ export class BookListComponent implements OnInit{
     // 清空已选中的书籍
     this.selectedBook = [];
   }
-  //TODO 和bookform.component.ts中的代码通信
-  editSelectedBook(): void {
-    if (this.selectedBook.length === 1) { // 只允许选择一个书籍进行修改
-      this.router.navigate(['/admin/book', this.selectedBook[0]]);
-    } else {
-      alert('请只选择一本书进行修改！');
-    }
-  }
+  //TODO
+  // editSelectedBook(): void {
+  //   if (this.selectedBook.length === 1) { // 只允许选择一个书籍进行修改
+  //     this.router.navigate(['/admin/book', this.selectedBook[1]]);
+  //   } else {
+  //     alert('请只选择一本书进行修改！');
+  //   }
+  //   // 跳转到修改书��的编辑页面
+
+  // }
   }
 
 

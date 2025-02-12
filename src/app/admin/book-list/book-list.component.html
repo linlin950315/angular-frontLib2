@@ -1,13 +1,11 @@
 <p>book-list works!</p>
 <h2>📚 书籍列表</h2>
 <button (click)="deleteBook()" [disabled]="selectedBook.length === 0">删除选中的书籍</button>
-<button (click)="editSelectedBook()" [disabled]="selectedBook.length === 0">
-  修改选中书籍
-</button>
 
 <table border="1">
   <thead>
     <tr>
+      <th>编辑</th>
       <th>选择</th>
       <th>ID</th>
       <th>书名</th>
@@ -19,22 +17,34 @@
       <th>更新时间</th>
     </tr>
   </thead>
+
   <tbody>
-    <tr *ngFor="let book of books">
-      <td><input type="checkbox" [value]="book.bookId" (change)="toggleSelection(book.bookId)"></td>
+    <tr *ngFor="let book of bookForm">
+      <td>
+        <a [routerLink]="['/admin/book', book.bookId]">编辑</a>
+      </td>
+      <td>
+        <input type="checkbox" [value]="book.bookId" (change)="toggleSelection(book.bookId)">
+      </td>
+
       <td>{{ book.bookId }}</td>
       <td>{{ book.bookName }}</td>
       <td>{{ book.categoryId }}</td>
       <td>{{ book.price }}</td>
-      <td [ngClass]="{ 'out-of-stock': book.counts === 0, 'low-stock': book.counts > 0 && book.counts < 5 }">
+      <td [ngClass]="{ 'out-of-stock' : book.counts === 0, 'low-stock': book.counts > 0 && book.counts < 5 }">
         {{ book.counts }}
       </td>
       <td>{{ book.status }}</td>
       <td>{{ book.createTime }}</td>
       <td>{{ book.updateTime }}</td>
+
     </tr>
   </tbody>
+
 </table>
+
+
+
 
 
 

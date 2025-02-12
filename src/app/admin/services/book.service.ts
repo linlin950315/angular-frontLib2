@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class BookService {
   private apiUrl = 'http://localhost:8080';
+
+  
   constructor(private http: HttpClient) { }
 
   //OK
@@ -23,8 +25,8 @@ export class BookService {
     return this.http.post<any>(this.apiUrl, book);
   }
 
-  updateBook(id: number, book: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${id}`, book);
+  updateBook(id: number, updatedBookInfo: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`,updatedBookInfo);
   }
 //delete OK
   deleteBook(bookId: number): Observable<void> {

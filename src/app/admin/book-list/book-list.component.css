@@ -21,3 +21,7 @@ th {
   color: orange;
   font-weight: bold;
 }
+
+a:visited {
+  color: blue; /* 让已访问的链接颜色与普通链接一致 */
+}

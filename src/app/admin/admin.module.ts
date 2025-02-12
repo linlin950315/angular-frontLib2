@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { ReactiveFormsModule } from '@angular/forms';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { BookFormComponent } from './book-form/book-form.component';
 import { BookListComponent } from './book-list/book-list.component';
-
 
 @NgModule({
   declarations: [
@@ -15,7 +15,8 @@ import { BookListComponent } from './book-list/book-list.component';
   ],
   imports: [
     CommonModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+   ReactiveFormsModule
   ]
 })
 export class AdminModule { }

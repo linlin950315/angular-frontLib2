@@ -11,7 +11,8 @@ const routes: Routes = [
   { path: '', component: AdminDashboardComponent },//http://localhost:4200/admin
   { path: 'book', component: BookListComponent },//展示所有书籍的列表;查看书籍详情，选择编辑或删除书籍。
   //TODO
-  { path: 'books/new', component: BookFormComponent },//管理员可以通过表单提交书籍信息。用于添加书籍。
+  { path: 'book/:bookId', component: BookFormComponent },//管理员可以通过表单根据id查书籍信息。
+  { path: 'books/new', component: BookFormComponent },//管理员可以通过表单提交书信息。用于添加书。
   { path: 'books/edit/:id', component: BookFormComponent },//管理员可以通过表单提交书籍信息。用于编辑书籍。
 ];
 @NgModule({
