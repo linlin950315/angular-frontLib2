@@ -48,38 +48,58 @@ export class BookFormComponent implements OnInit {
     //console.log('L46bookService前loadBook() 被调用，bookId:', this.bookId);
     this.bookService.getBookById(this.bookId).subscribe(response => {
       console.log('L48bookService被调用response:', response);
-      if (response && response.data){
+      if (response && response.data) {
         this.bookForm.patchValue({ //将获取到的数据填充到表单
-          bookName:  response.data.book_name,
-          bookId: response.data.book_id
+          bookName: response.data.book_name,
+          bookId: response.data.book_id,
+          categoryId: response.data.categoryId,
+          price: response.data.price,
+          counts: response.data.counts,
+          status: response.data.status,
+          description: response.data.description,
         });
-        console.log('表单数据v', this.bookForm.value);
-        console.log('表单数据c', this.bookForm.controls);
+        //console.log('表单数据v', this.bookForm.value);
+        //console.log('表单数据c', this.bookForm.controls);
       }
     });
   }
 
   // 3.提交修改
   // 提交表单
-  // onSubmit() {
-  //   // 如果表单验证通过
-  //   if (this.bookForm.valid) {
-  //     // 获取表单数据
-  //     const bookData = this.bookForm.value;
-  //     // 如果是编辑模式
-  //     if (this.isEditMode) {
-  //       // 编辑模式，调用更新 API
-  //       this.bookService.updateBook(this.bookId, bookData).subscribe(() => {
-  //         alert('书籍信息更新成功！');
-  //         this.router.navigate(['/admin/book-list']); // 返回书籍列表
-  //       });
-  //     } else {
-  //       // 新增模式，调用新增 API
-  //       this.bookService.addBook(bookData).subscribe(() => {
-  //         alert('书籍添加成功！');
-  //         this.router.navigate(['/admin/book-list']); // 返回书籍列表
-  //       });
-  //     }
-  //   }
-  // }
+  onSubmit() {
+    // 如果表单验证通过
+    if (this.bookForm.valid) {
+      // 获取表单数据
+      const bookData = {
+        ...this.bookForm.value,//?
+        //categoryId: Number(this.bookForm.value.categoryId), // 转换成数值类型
+        //bookId: Number(this.bookForm.value.bookId) // 确保 ID 也是数字
+      };
+      //todo 这个看着麻烦
+      const bookInfo = {
+        book_name: bookData.bookName,
+        book_id: bookData.bookId,
+        categoryId: bookData.categoryId,
+        price: bookData.price,
+        counts: bookData.counts,
+        status: bookData.status,
+        description: bookData.description,
+      }
+
+      // 如果是编辑模式
+      if (this.isEditMode) {
+        // 编辑模式，调用更新 API
+        this.bookService.updateBook(bookInfo).subscribe(() => {
+          alert('书籍信息更新成功！');
+          this.router.navigate(['/admin/book']); // 返回书籍列表
+        });
+      } else {
+        // 新增模式，调用新增 API
+        // this.bookService.addBook(bookData).subscribe(() => {
+        //   alert('书籍添加成功！');
+        //   this.router.navigate(['/admin/book-list']); // 返回书籍列表
+        // });
+      }
+    }
+  }
 }

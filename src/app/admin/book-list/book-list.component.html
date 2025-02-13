@@ -1,5 +1,5 @@
 <p>book-list works!</p>
-<h2>📚 书籍列表</h2>
+<h2>📚 书籍列表(加分页 排序功能)</h2>
 <button (click)="deleteBook()" [disabled]="selectedBook.length === 0">删除选中的书籍</button>
 
 <table border="1">
@@ -9,10 +9,10 @@
       <th>选择</th>
       <th>ID</th>
       <th>书名</th>
-      <th>分类</th>
+      <th>分类ID</th>
       <th>价格</th>
       <th>库存</th>
-      <th>状态</th>
+      <th>状态(1/2 前端转换成可借不可借)</th>
       <th>创建时间</th>
       <th>更新时间</th>
     </tr>

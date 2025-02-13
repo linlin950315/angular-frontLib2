@@ -6,7 +6,7 @@
   <input type="text" formControlName="bookName">
   <br>
 
-  <label>分类:</label>
+  <label>分类ID:</label>
   <input type="text" formControlName="categoryId">
   <br>
 
@@ -26,8 +26,9 @@
   <textarea formControlName="description"></textarea>
   <br>
 
-  <!--<button type="submit" [disabled]="bookForm.invalid">
+  <button type="button" (click)="onSubmit()" [disabled]="bookForm.invalid">
+
     {{ isEditMode ? '更新书籍' : '添加书籍' }}
-  </button>-->
+  </button>
 </form>
 
