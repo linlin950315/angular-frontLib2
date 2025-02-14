@@ -69,16 +69,10 @@ export class BookListComponent implements OnInit{
     // 清空已选中的书籍
     this.selectedBook = [];
   }
-  //TODO
-  // editSelectedBook(): void {
-  //   if (this.selectedBook.length === 1) { // 只允许选择一个书籍进行修改
-  //     this.router.navigate(['/admin/book', this.selectedBook[1]]);
-  //   } else {
-  //     alert('请只选择一本书进行修改！');
-  //   }
-  //   // 跳转到修改书��的编辑页面
+  addBook() {
+    this.router.navigate(['/admin/book/insert']); //仅按钮
+  }
 
-  // }
   }
 
 

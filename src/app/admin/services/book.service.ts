@@ -21,10 +21,10 @@ export class BookService {
     return this.http.get<any>(`${this.apiUrl}/admin/book/${bookId}`);
   }
 
-  addBook(book: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, book);
+  insertABook(bookInfo: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/admin/book/insert`, bookInfo);
   }
-//OK?
+//Ok
   updateBook(updatedBookInfo: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/admin/book`,updatedBookInfo);
   }

@@ -26,9 +26,9 @@
   <textarea formControlName="description"></textarea>
   <br>
 
-  <button type="button" (click)="onSubmit()" [disabled]="bookForm.invalid">
-
+  <button type="button" (click)="onSubmit()">
     {{ isEditMode ? '更新书籍' : '添加书籍' }}
   </button>
+  <button type="button" (click)="goBack()">goBack</button>
 </form>
 
