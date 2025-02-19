@@ -12,7 +12,8 @@ import { BookService } from '../services/book.service';
 export class BookListComponent implements OnInit {
   bookForm: any[] = [];
   selectedBook: number[] = []; // 存储选中的书籍 ID
-  displayedColumns: string[] = ['book_id', 'book_name', 'category_id', 'price', 'counts', 'status', 'createTime', 'updateTime'];
+  // 和html交互的表格列名
+  displayedColumns: string[] = ['edit','checkbox','book_id', 'book_name', 'category_id', 'price', 'counts', 'status', 'createTime', 'updateTime'];
   dataSource = new MatTableDataSource<any>([]);
   //分页
   pageEvent = PageEvent;
@@ -38,7 +39,7 @@ export class BookListComponent implements OnInit {
     this.loadBooks();//调用 loadBooks() 方法，从后端加载书籍数据。
   }
 
-  // loadBooks(): void {
+  // allBooks(): void {
   //   this.bookService.getBooks().subscribe({//组件初始化时，调用 getItems() 加载第一页的数据。
   //     next: (data) => {
   //       this.bookForm = data.map(book => ({
@@ -78,10 +79,10 @@ export class BookListComponent implements OnInit {
   }
 
   // 切换选中状态
-  toggleSelection(bookId: number) {
-    const index = this.selectedBook.indexOf(bookId);
+  toggleSelection(toggedBookId: number) {
+    const index = this.selectedBook.indexOf(toggedBookId);
     if (index === -1) {
-      this.selectedBook.push(bookId);
+      this.selectedBook.push(toggedBookId);
     } else {
       this.selectedBook.splice(index, 1); //array.splice(start, deleteCount, item1, item2, ...);
       // start：表示要修改的起始索引位置（从0计数）。
@@ -91,11 +92,12 @@ export class BookListComponent implements OnInit {
   }
   deleteBook(): void {
     // 遍历选中的书籍，依次发送删除请求
-    this.selectedBook.forEach(bookId => {
-      this.bookService.deleteBook(bookId).subscribe({
+    this.selectedBook.forEach(toggedBookId => {
+      //console.log('删除书籍 ID:', toggedBookId);//TODO 实际删除成功但前端没报成功
+      this.bookService.deleteBook(toggedBookId).subscribe({
         next: () => {
           // 成功后从 books 列表中移除该书籍
-          this.bookForm = this.bookForm.filter(book => book.bookId !== bookId);
+          this.bookForm = this.bookForm.filter(book => book.book_id !== toggedBookId);
         },
       });
     });
