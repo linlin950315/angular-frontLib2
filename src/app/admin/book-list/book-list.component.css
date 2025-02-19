@@ -1,6 +1,7 @@
 table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;/* 固定表格布局 */
 }
 
 th, td {

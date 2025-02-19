@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
+//service 用于调用后端 API，从server取数据。获取书籍数据。
 @Injectable({
   providedIn: 'root'
 })
@@ -12,8 +12,10 @@ export class BookService {
   constructor(private http: HttpClient) { }
 
   //OK
-  getBooks(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/admin/book`);
+  getBooks(page: number, size: number): Observable<any[]> {
+    return this.http.get<any>(`${this.apiUrl}/admin/book`, {
+      params: { page: page.toString(), size: size.toString() }
+    });
   }
 
   // 根据id获取书籍
