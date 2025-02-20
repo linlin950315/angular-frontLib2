@@ -34,4 +34,7 @@ export class BookService {
   deleteBook(bookId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/admin/book/${bookId}`);
   }
+  // closeDialog(): Observable<void> {
+  //   return this.http.get<void>(`${this.apiUrl}/admin/book`);
+  // }
 }

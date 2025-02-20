@@ -31,9 +31,9 @@ export class BookFormComponent implements OnInit {
     });
     // 获取bookId
     this.route.paramMap.subscribe(params => {
-      //console.log('L34 当前 bookId:', params);
+      console.log('L34 当前 bookId:', params);
       const bookId = params.get('bookId');
-      console.log('L25当前 bookId:', bookId);
+      console.log('L36当前 id:', bookId);
       if (bookId === 'insert') {
         this.isEditMode = false;
         console.log('L28模式', this.isEditMode);
@@ -59,7 +59,7 @@ export class BookFormComponent implements OnInit {
           this.bookForm.patchValue({ //将获取到的数据填充到表单
             bookName: response.data.book_name,
             bookId: response.data.book_id,
-            categoryId: response.data.categoryId,
+            categoryId: response.data.category_id,
             price: response.data.price,
             counts: response.data.counts,
             status: response.data.status,
@@ -106,7 +106,7 @@ export class BookFormComponent implements OnInit {
         const bookInfoAndId = {
           book_name: this.bookForm.value.bookName,
           book_id: this.bookForm.value.bookId,
-          categoryId: Number(this.bookForm.value.categoryId),
+          category_id: Number(this.bookForm.value.categoryId),
           price: this.bookForm.value.price,
           counts: this.bookForm.value.counts,
           status: this.bookForm.value.status,
@@ -123,7 +123,7 @@ export class BookFormComponent implements OnInit {
         const bookInfo = {
           book_name: this.bookForm.value.bookName,
           //book_id: this.bookForm.value.bookId,
-          categoryId: Number(this.bookForm.value.categoryId),
+          category_id: Number(this.bookForm.value.categoryId),
           price: this.bookForm.value.price,
           counts: this.bookForm.value.counts,
           status: this.bookForm.value.status,

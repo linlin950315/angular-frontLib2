@@ -2,8 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { BookService } from '../services/book.service';
-@Component({//TODO 改后端
+@Component({
   selector: 'app-book-list',
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css'
@@ -13,15 +14,15 @@ export class BookListComponent implements OnInit {
   bookForm: any[] = [];
   selectedBook: number[] = []; // 存储选中的书籍 ID
   // 和html交互的表格列名
-  displayedColumns: string[] = ['edit','checkbox','book_id', 'book_name', 'category_id', 'price', 'counts', 'status', 'createTime', 'updateTime'];
+  displayedColumns: string[] = ['edit', 'checkbox', 'book_id', 'book_name', 'category_id', 'price', 'counts', 'status', 'createTime', 'updateTime'];
   dataSource = new MatTableDataSource<any>([]);
   //分页
   pageEvent = PageEvent;
   totalElements = 0;
   totalPages = 0;
-  pageSize = 5;
+  pageSize = 15;
   currentPage = 0;
-  page=0;
+  page = 0;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -29,13 +30,11 @@ export class BookListComponent implements OnInit {
   constructor(
     private bookService: BookService,
     private router: Router, //router：用于 跳转页面。
-
   ) { }
   //构造函数中注入 BookService，用于调用 API 获取书籍数据。
 
   ngOnInit(): void {//ngOnInit() 在组件创建后会自动执行。
     console.log('BookListComponent 初始化');
-
     this.loadBooks();//调用 loadBooks() 方法，从后端加载书籍数据。
   }
 
@@ -64,8 +63,8 @@ export class BookListComponent implements OnInit {
     this.bookService.getBooks(this.currentPage, this.pageSize).subscribe((data: any) => {
       //console.log('data:', data);
       this.dataSource = data.content || []; // 确保 data.content 不是 undefined
-      //TODO:this.dataSource.data = data.content 分页器报错原因
-      console.log('dthis.dataSource', data.content);
+      //TODO:this.dataSource.data = data.content 分页器报错原因不懂
+      console.log('dthis.dataSource', this.dataSource);
       this.totalElements = data.totalElements; // 总条数
       this.totalPages = data.totalPages // 总页数
     });
@@ -79,9 +78,13 @@ export class BookListComponent implements OnInit {
   }
 
   // 切换选中状态
+  // 切换书籍选择状态
   toggleSelection(toggedBookId: number) {
+    // 获取已选择书籍数组中指定书籍的索引
     const index = this.selectedBook.indexOf(toggedBookId);
+    // 如果指定书籍不在已选择书籍数组中
     if (index === -1) {
+      // 将指定书籍添加到已选择书籍数组中
       this.selectedBook.push(toggedBookId);
     } else {
       this.selectedBook.splice(index, 1); //array.splice(start, deleteCount, item1, item2, ...);
@@ -91,19 +94,20 @@ export class BookListComponent implements OnInit {
     }
   }
   deleteBook(): void {
-    // 遍历选中的书籍，依次发送删除请求
-    this.selectedBook.forEach(toggedBookId => {
-      //console.log('删除书籍 ID:', toggedBookId);//TODO 实际删除成功但前端没报成功
-      this.bookService.deleteBook(toggedBookId).subscribe({
-        next: () => {
-          // 成功后从 books 列表中移除该书籍
-          this.bookForm = this.bookForm.filter(book => book.book_id !== toggedBookId);
-        },
-      });
-    });
+    if (this.selectedBook.length === 0) return;
 
-    // 清空已选中的书籍
-    this.selectedBook = [];
+    const deleteRequests = this.selectedBook.map(toggedBookId =>
+      this.bookService.deleteBook(toggedBookId)
+    );
+
+    forkJoin(deleteRequests).subscribe({
+      next: () => {
+        this.loadBooks(); // 重新加载数据
+        this.selectedBook = []; // 清空选择
+        alert('删除成功');
+      },
+      error: err => console.error('删除失败:', err)
+    });
   }
   addBook() {
     this.router.navigate(['/admin/book/insert']); //仅按钮
