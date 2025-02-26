@@ -14,7 +14,7 @@ export class BookListComponent implements OnInit {
   bookForm: any[] = [];
   selectedBook: number[] = []; // 存储选中的书籍 ID
   // 和html交互的表格列名
-  displayedColumns: string[] = ['edit', 'checkbox', 'book_id', 'book_name', 'category_id', 'price', 'counts', 'status', 'createTime', 'updateTime'];
+  displayedColumns: string[] = ['edit', 'checkbox', 'bookId', 'book_name', 'category_id', 'price', 'counts', 'status', 'createTime', 'updateTime'];
   dataSource = new MatTableDataSource<any>([]);
   //分页
   pageEvent = PageEvent;
@@ -64,7 +64,7 @@ export class BookListComponent implements OnInit {
       //console.log('data:', data);
       this.dataSource = data.content || []; // 确保 data.content 不是 undefined
       //TODO:this.dataSource.data = data.content 分页器报错原因不懂
-      console.log('dthis.dataSource', this.dataSource);
+      console.log('67dataSource', this.dataSource);
       this.totalElements = data.totalElements; // 总条数
       this.totalPages = data.totalPages // 总页数
     });
@@ -82,6 +82,7 @@ export class BookListComponent implements OnInit {
   toggleSelection(toggedBookId: number) {
     // 获取已选择书籍数组中指定书籍的索引
     const index = this.selectedBook.indexOf(toggedBookId);
+    console.log('index', index);
     // 如果指定书籍不在已选择书籍数组中
     if (index === -1) {
       // 将指定书籍添加到已选择书籍数组中
@@ -114,5 +115,6 @@ export class BookListComponent implements OnInit {
   }
 
 }
+
 
 

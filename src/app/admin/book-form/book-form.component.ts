@@ -54,12 +54,13 @@ export class BookFormComponent implements OnInit {
     } else if (!isNaN(this.bookId)) {
       //console.log('L46bookService前loadBook() 被调用，bookId:', this.bookId);
       this.bookService.getBookById(this.bookId).subscribe(response => {
-        console.log('L48bookService被调用response:', response);
+        console.log('L59bookService被调用response:', response);
         if (response && response.data) {
           this.bookForm.patchValue({ //将获取到的数据填充到表单
             bookName: response.data.book_name,
-            bookId: response.data.book_id,
-            categoryId: response.data.category_id,
+            bookId: response.data.bookId,
+            categoryId: response.data.category.categoryId,
+            categoryName: response.data.category.categoryName, // TODO这里变成下拉菜单显示名字
             price: response.data.price,
             counts: response.data.counts,
             status: response.data.status,
@@ -77,67 +78,67 @@ export class BookFormComponent implements OnInit {
   onSubmit() {
     // 如果表单验证通过
     //if (this.bookForm.valid) {}
-      // 获取表单数据1
-      // const bookData = {
-      //   bookName: this.bookForm.value.bookName,
-      //   bookId: this.bookForm.value.bookId,
-      //   categoryId: this.bookForm.value.categoryId,
-      //   price: this.bookForm.value.price,
-      //   counts: this.bookForm.value.counts,
-      //   status: this.bookForm.value.status,
-      //   description: this.bookForm.value.description,
-      //  };
-      // console.log('L90 bookData:', bookData);
-      //这个看着麻烦
-      // const bookInfo = {
-      //   book_name: bookData.bookName,
-      //   book_id: bookData.bookId,
-      //   categoryId: bookData.categoryId,
-      //   price: bookData.price,
-      //   counts: bookData.counts,
-      //   status: bookData.status,
-      //   description: bookData.description,
-      // }
-            // 获取表单数据2
+    // 获取表单数据1
+    // const bookData = {
+    //   bookName: this.bookForm.value.bookName,
+    //   bookId: this.bookForm.value.bookId,
+    //   categoryId: this.bookForm.value.categoryId,
+    //   price: this.bookForm.value.price,
+    //   counts: this.bookForm.value.counts,
+    //   status: this.bookForm.value.status,
+    //   description: this.bookForm.value.description,
+    //  };
+    // console.log('L90 bookData:', bookData);
+    //这个看着麻烦
+    // const bookInfo = {
+    //   book_name: bookData.bookName,
+    //   book_id: bookData.bookId,
+    //   categoryId: bookData.categoryId,
+    //   price: bookData.price,
+    //   counts: bookData.counts,
+    //   status: bookData.status,
+    //   description: bookData.description,
+    // }
+    // 获取表单数据2
 
-      // 如果是编辑模式
-      if (this.isEditMode) {
-        //获取带ID的表单
-        const bookInfoAndId = {
-          book_name: this.bookForm.value.bookName,
-          book_id: this.bookForm.value.bookId,
-          category_id: Number(this.bookForm.value.categoryId),
-          price: this.bookForm.value.price,
-          counts: this.bookForm.value.counts,
-          status: this.bookForm.value.status,
-          description: this.bookForm.value.description,
-        }
-        console.log('bookInfoAndId:',bookInfoAndId);
-
-        this.bookService.updateBook(bookInfoAndId).subscribe(() => {
-          alert('书籍信息更新成功！');
-          this.router.navigate(['/admin/book']); // 返回书籍列表
-        });
-      } else {
-        //获取无ID的表单
-        const bookInfo = {
-          book_name: this.bookForm.value.bookName,
-          //book_id: this.bookForm.value.bookId,
-          category_id: Number(this.bookForm.value.categoryId),
-          price: this.bookForm.value.price,
-          counts: this.bookForm.value.counts,
-          status: this.bookForm.value.status,
-          description: this.bookForm.value.description,
-        }
-        console.log('bookInfoAndId:',bookInfo);
-        this.bookService.insertABook(bookInfo).subscribe(() => {
-          alert('书添加成功！');
-          this.router.navigate(['/admin/book']);
-        });
+    // 如果是编辑模式
+    if (this.isEditMode) {
+      //获取带ID的表单
+      const bookInfoAndId = {
+        book_name: this.bookForm.value.bookName,
+        book_id: this.bookForm.value.bookId,
+        category_id: Number(this.bookForm.value.categoryId),
+        price: this.bookForm.value.price,
+        counts: this.bookForm.value.counts,
+        status: this.bookForm.value.status,
+        description: this.bookForm.value.description,
       }
+      console.log('bookInfoAndId:', bookInfoAndId);
+
+      this.bookService.updateBook(bookInfoAndId).subscribe(() => {
+        alert('书籍信息更新成功！');
+        this.router.navigate(['/admin/book']); // 返回书籍列表
+      });
+    } else {
+      //获取无ID的表单
+      const bookInfo = {
+        book_name: this.bookForm.value.bookName,
+        //book_id: this.bookForm.value.bookId,
+        category_id: Number(this.bookForm.value.categoryId),
+        price: this.bookForm.value.price,
+        counts: this.bookForm.value.counts,
+        status: this.bookForm.value.status,
+        description: this.bookForm.value.description,
+      }
+      console.log('bookInfoAndId:', bookInfo);
+      this.bookService.insertABook(bookInfo).subscribe(() => {
+        alert('书添加成功！');
+        this.router.navigate(['/admin/book']);
+      });
+    }
 
   }
-  goBack(){
+  goBack() {
     this.router.navigate(['/admin/book']);
   }
 }

@@ -8,11 +8,12 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { AdminRoutingModule } from './admin-routing.module';
 import { BookFormComponent } from './book-form/book-form.component';
 import { BookListComponent } from './book-list/book-list.component';
+import { CategoriesComponent } from './categories/categories.component';
 @NgModule({
   declarations: [
     AdminDashboardComponent,
     BookListComponent,// 声明组件
-    BookFormComponent
+    BookFormComponent, CategoriesComponent
   ],
   imports: [
     CommonModule,
