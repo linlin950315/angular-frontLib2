@@ -66,8 +66,7 @@ export class BookFormComponent implements OnInit {
             status: response.data.status,
             description: response.data.description,
           });
-          console.log('表单数据v', this.bookForm.value);
-          console.log('表单数据c', this.bookForm.controls);
+          console.log('表单数据bookForm', this.bookForm);
         }
       });
 

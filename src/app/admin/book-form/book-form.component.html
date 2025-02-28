@@ -6,8 +6,10 @@
   <input type="text" formControlName="bookName">
   <br>
 
-  <label>分类ID:</label>
-  <input type="text" formControlName="categoryId">
+  <app-categories
+  [showCategoryId]="bookForm.value.categoryId"
+  (categoryChange)="bookForm.controls['categoryId'].setValue($event)">
+</app-categories>
   <br>
 
   <label>价格:</label>
