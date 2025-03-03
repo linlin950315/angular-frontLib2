@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CategoryService } from '../services/category.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { CategoryService } from '../services/category.service';
 })
 export class CategoriesComponent implements OnInit{
   @Input() showCategoryId: number | null = null; // 绑定当前 显示的分类
-  @Output() categoryChange = new EventEmitter<number>(); // Emitter用于子组件向父组件发送事件
+  //@Output() categoryChange = new EventEmitter<number>(); // Emitter用于子组件向父组件发送事件
   categories: { categoryId: number; categoryName: string }[] = []; // 分类列表
   showCategoryName: string = ''; // 显示的分类名称
 
@@ -27,11 +27,11 @@ export class CategoriesComponent implements OnInit{
     this.showCategoryName = showCategory ? showCategory.categoryName : '';
   }
 
-  onCategoryChange(event: any) {
-    const newCategoryId = Number(event.target.value);
-    this.showCategoryId = newCategoryId;
-    this.updateCategoryName();
-    this.categoryChange.emit(newCategoryId);
-  }
+  // onCategoryChange(event: any) {
+  //   const newCategoryId = Number(event.target.value);
+  //   this.showCategoryId = newCategoryId;
+  //   this.updateCategoryName();
+  //   this.categoryChange.emit(newCategoryId);
+  // }
 
 }

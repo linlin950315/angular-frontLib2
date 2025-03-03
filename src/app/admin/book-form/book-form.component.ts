@@ -19,7 +19,7 @@ export class BookFormComponent implements OnInit {
     private router: Router, //router：用于 跳转页面。
   ) { }
   ngOnInit() {
-    //初始化表单（即使没有数据也要先创建表单）
+    //1.初始化表单（即使没有数据也要先创建表单）
     this.bookForm = new FormGroup({
       bookName: new FormControl('', Validators.required),
       bookId: new FormControl('', Validators.required),
@@ -29,7 +29,7 @@ export class BookFormComponent implements OnInit {
       status: new FormControl(''),
       description: new FormControl('')
     });
-    // 获取bookId
+    //2.获取bookId
     this.route.paramMap.subscribe(params => {
       console.log('L34 当前 bookId:', params);
       const bookId = params.get('bookId');
@@ -47,7 +47,7 @@ export class BookFormComponent implements OnInit {
     });
   }
 
-  //2.获取书籍信息并填充表单
+  //2.根据bookId获取书籍信息并填充表单
   loadBook() {//也是两个，先判断新增还是编辑模式，再获取数据
     if (String(this.bookId) === 'insert') {//TODO
 
@@ -60,16 +60,15 @@ export class BookFormComponent implements OnInit {
             bookName: response.data.book_name,
             bookId: response.data.bookId,
             categoryId: response.data.category.categoryId,
-            categoryName: response.data.category.categoryName, // TODO这里变成下拉菜单显示名字
+            //categoryName: response.data.category.categoryName, // TODO这里变成下拉菜单显示名字
             price: response.data.price,
             counts: response.data.counts,
             status: response.data.status,
             description: response.data.description,
           });
-          console.log('表单数据bookForm', this.bookForm);
+          console.log('L69表单数据bookForm', this.bookForm);
         }
       });
-
     }
 
   }

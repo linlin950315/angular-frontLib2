@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
@@ -21,6 +21,7 @@ import { CategoriesComponent } from './categories/categories.component';
    ReactiveFormsModule,
    MatPaginatorModule,
    MatTableModule,
+   FormsModule
   ]
 })
 export class AdminModule { }
