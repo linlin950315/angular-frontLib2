@@ -104,8 +104,8 @@ export class BookFormComponent implements OnInit {
       //获取带ID的表单
       const bookInfoAndId = {
         book_name: this.bookForm.value.bookName,
-        book_id: this.bookForm.value.bookId,
-        category_id: Number(this.bookForm.value.categoryId),
+        bookId: this.bookForm.value.bookId,
+        categoryId: Number(this.bookForm.value.categoryId),
         price: this.bookForm.value.price,
         counts: this.bookForm.value.counts,
         status: this.bookForm.value.status,

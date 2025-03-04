@@ -67,6 +67,7 @@ export class BookListComponent implements OnInit {
       console.log('67dataSource', this.dataSource);
       this.totalElements = data.totalElements; // 总条数
       this.totalPages = data.totalPages // 总页数
+      console.log('70total', this.totalElements, this.totalPages);
     });
 
   }

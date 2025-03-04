@@ -27,8 +27,8 @@ export class BookService {
     return this.http.post<any>(`${this.apiUrl}/admin/book/insert`, bookInfo);
   }
 //Ok
-  updateBook(updatedBookInfo: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/admin/book`,updatedBookInfo);
+  updateBook(bookInfoAndId: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/admin/book`,bookInfoAndId);
   }
 //delete OK
   deleteBook(bookId: number): Observable<void> {
