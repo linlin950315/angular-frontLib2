@@ -122,13 +122,13 @@ export class BookFormComponent implements OnInit {
       const bookInfo = {
         book_name: this.bookForm.value.bookName,
         //book_id: this.bookForm.value.bookId,
-        category_id: Number(this.bookForm.value.categoryId),
+        categoryId: Number(this.bookForm.value.categoryId),
         price: this.bookForm.value.price,
         counts: this.bookForm.value.counts,
         status: this.bookForm.value.status,
         description: this.bookForm.value.description,
       }
-      console.log('bookInfoAndId:', bookInfo);
+      console.log('bookInfo（insertBook）:', bookInfo);
       this.bookService.insertABook(bookInfo).subscribe(() => {
         alert('书添加成功！');
         this.router.navigate(['/admin/book']);

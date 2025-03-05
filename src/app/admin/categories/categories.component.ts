@@ -18,12 +18,15 @@ export class CategoriesComponent implements OnInit{
     this.categoryService.getAllCategory().subscribe(catdata => {
       this.categories = catdata;
       console.log('Category分类列表:', this.categories);
-      this.updateCategoryName()
+      this.showCategory()
       console.log('当前选中的分类ID+名称:' + this.showCategoryId, this.showCategoryName);
     });
   }
-  updateCategoryName() {
+  // 更新显示的分类名称
+  showCategory() {
+    // 根据showCategoryId查找categories数组中的分类
     const showCategory = this.categories.find(c => c.categoryId === this.showCategoryId);
+    // 如果找到了分类，则将分类名称赋值给showCategoryName，否则赋值为空字符串
     this.showCategoryName = showCategory ? showCategory.categoryName : '';
   }
 
