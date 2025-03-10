@@ -14,7 +14,7 @@ export class BookListComponent implements OnInit {
   bookForm: any[] = [];
   selectedBook: number[] = []; // 存储选中的书籍 ID
   // 和html交互的表格列名
-  displayedColumns: string[] = ['edit', 'checkbox', 'bookId', 'book_name', 'category_id', 'price', 'counts', 'status', 'createTime', 'updateTime'];
+  displayedColumns: string[] = ['edit', 'checkbox', 'bookId', 'book_name', 'category_id','categoryName', 'price', 'counts', 'status', 'createTime', 'updateTime'];
   dataSource = new MatTableDataSource<any>([]);
   //分页
   pageEvent = PageEvent;

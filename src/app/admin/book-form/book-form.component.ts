@@ -134,8 +134,13 @@ export class BookFormComponent implements OnInit {
         this.router.navigate(['/admin/book']);
       });
     }
-
   }
+  updateCategoryId(categoryId: any) {
+    console.log('L139 categoryId:', categoryId);  // 接收到 categoryId，并更新到 bookForm中
+    this.bookForm.patchValue({ categoryId }); // 直接更新表单中的 categoryId
+  }
+
+
   goBack() {
     this.router.navigate(['/admin/book']);
   }

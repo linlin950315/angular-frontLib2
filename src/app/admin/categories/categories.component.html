@@ -1,6 +1,6 @@
 <p>categories works!</p>
 <label>分类名称:</label>
-<select  [(ngModel)]="showCategoryId">
+<select  [(ngModel)]="showCategoryId" (change)="onCategoryChange($event)">
   <option *ngFor="let category of categories" [value]="category.categoryId">
     {{ category.categoryName }}
   </option>

@@ -6,11 +6,17 @@
   <input type="text" formControlName="bookName">
   <br>
 
-  <app-categories
+  <!--<app-categories
   [showCategoryId]="bookForm.value.categoryId"
-  (categoryChange)="bookForm.controls['categoryId'].setValue($event)">
+  (onCategoryChange)="bookForm.controls['categoryId'].setValue($event)">
+</app-categories>
+  <br>  -->
+
+  <app-categories [showCategoryId]="bookForm.value.categoryId"
+  (categoryChange)="updateCategoryId($event)">
 </app-categories>
   <br>
+
 
   <label>价格:</label>
   <input type="number" formControlName="price">
