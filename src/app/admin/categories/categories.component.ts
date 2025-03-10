@@ -8,7 +8,7 @@ import { CategoryService } from '../services/category.service';
   styleUrl: './categories.component.css'
 })
 export class CategoriesComponent implements OnInit{
-  @Input() showCategoryId: number | null = null; // 绑定当前 显示的分类
+  @Input() showCategoryId: number | null = null; // 从后端来的 绑定当前 显示的分类
   @Output() categoryChange = new EventEmitter<any>(); //定义EventEmitter， Emitter组件之间传递 解耦 子组件向父组件发送事件
   categories: { categoryId: number; categoryName: string }[] = []; // 分类列表
   showCategoryName: string = ''; // 显示的分类名称
@@ -31,11 +31,13 @@ export class CategoriesComponent implements OnInit{
     this.showCategoryName = showCategory ? showCategory.categoryName : '';
   }
 
-  onCategoryChange(event: any) {
-    const newCategoryId = Number(event.target.value);
-    this.showCategoryId = newCategoryId;
-    this.categoryChange.emit(newCategoryId);// 触发事件并发送数据
-    console.log('onCategoryChange,ID :' + newCategoryId);
+  onCategoryChange(event: any) {//在book-form.component.html中，当用户选择分类时，会触发 onCategoryChange() 方法。
+    //在book-form.component.html中触发(categoryChange)方法后传入updateCategoryId
+    const updateCategoryId = Number(event.target.value);
+    this.categoryChange.emit(updateCategoryId);// 触发事件并发送数据
+    this.showCategoryId = updateCategoryId;
+    //this.categoryChange.emit(updateCategoryId);// 触发事件并发送数据
+    console.log('onCategoryChange,ID :' + updateCategoryId);
   }
 }
 

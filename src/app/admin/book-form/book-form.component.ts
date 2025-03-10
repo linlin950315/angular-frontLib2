@@ -31,18 +31,18 @@ export class BookFormComponent implements OnInit {
     });
     //2.获取bookId
     this.route.paramMap.subscribe(params => {
-      console.log('L34 当前 bookId:', params);
+      //console.log('L34 当前 bookId:', params);
       const bookId = params.get('bookId');
-      console.log('L36当前 id:', bookId);
+      //console.log('L36当前 id:', bookId);
       if (bookId === 'insert') {
         this.isEditMode = false;
         console.log('L28模式', this.isEditMode);
       } else if (!isNaN(Number(bookId))) {  //TODO为啥用！NaN啥意思
         this.isEditMode = true; // 进入编辑模式
-        console.log('L32模式', this.isEditMode); //
+        console.log('L32模式', this.isEditMode);
         this.bookId = Number(bookId); //给bookid赋值
         this.loadBook(); // 加载书籍数据
-        console.log('L29当前 bookId:', bookId);
+        //console.log('L29当前 bookId:', bookId);
       }
     });
   }
@@ -50,7 +50,6 @@ export class BookFormComponent implements OnInit {
   //2.根据bookId获取书籍信息并填充表单
   loadBook() {//也是两个，先判断新增还是编辑模式，再获取数据
     if (String(this.bookId) === 'insert') {//TODO
-
     } else if (!isNaN(this.bookId)) {
       //console.log('L46bookService前loadBook() 被调用，bookId:', this.bookId);
       this.bookService.getBookById(this.bookId).subscribe(response => {
@@ -105,7 +104,7 @@ export class BookFormComponent implements OnInit {
       const bookInfoAndId = {
         book_name: this.bookForm.value.bookName,
         bookId: this.bookForm.value.bookId,
-        categoryId: Number(this.bookForm.value.categoryId),
+        categoryId: this.bookForm.value.categoryId,
         price: this.bookForm.value.price,
         counts: this.bookForm.value.counts,
         status: this.bookForm.value.status,
@@ -122,7 +121,7 @@ export class BookFormComponent implements OnInit {
       const bookInfo = {
         book_name: this.bookForm.value.bookName,
         //book_id: this.bookForm.value.bookId,
-        categoryId: Number(this.bookForm.value.categoryId),
+        categoryId: Number(this.bookForm.value.categoryId),//TODO:先不动新增功能
         price: this.bookForm.value.price,
         counts: this.bookForm.value.counts,
         status: this.bookForm.value.status,
@@ -135,9 +134,13 @@ export class BookFormComponent implements OnInit {
       });
     }
   }
-  updateCategoryId(categoryId: any) {
-    console.log('L139 categoryId:', categoryId);  // 接收到 categoryId，并更新到 bookForm中
-    this.bookForm.patchValue({ categoryId }); // 直接更新表单中的 categoryId
+  //第一步： 向后端发送更新后的 categoryId。
+  //第二步：updateCategoryId 使event运行，走(categoryChange)方法。 接收子组件传来的categoryId
+  //event思路：子组件categories 通过其他组件的html引用<app-categories> 向父组件发送事件
+  updateCategoryId(updateCategoryId: any) {
+    console.log('L139 updateCategoryId接收到新Id，并更新到bookForm中', updateCategoryId);
+    this.bookForm.patchValue({ categoryId: updateCategoryId }); // 点击提交按钮后，向后端发送更新后的 Id。
+    console.log('L143 检查patchValue后的bookForm:', this.bookForm.value);
   }
 
 

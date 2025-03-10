@@ -6,17 +6,12 @@
   <input type="text" formControlName="bookName">
   <br>
 
-  <!--<app-categories
-  [showCategoryId]="bookForm.value.categoryId"
-  (onCategoryChange)="bookForm.controls['categoryId'].setValue($event)">
-</app-categories>
-  <br>  -->
-
   <app-categories [showCategoryId]="bookForm.value.categoryId"
   (categoryChange)="updateCategoryId($event)">
-</app-categories>
+  </app-categories>
   <br>
-
+<!-- [showCategoryId]是输入绑定@Input；；
+事件绑定:(categoryChange)="updateCategoryId($event)"监听子组件的categoryChange事件,并执行函数-->
 
   <label>价格:</label>
   <input type="number" formControlName="price">
