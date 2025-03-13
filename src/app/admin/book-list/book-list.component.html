@@ -1,12 +1,15 @@
 <p>book-list works!</p>
-<h2>📚 书籍列表(加分页 排序功能)</h2>
+<h2>📚 书籍列表(加分页 排序功能NGNG 根据categoryID筛选功能 打tag，一个bookid，对应多个tag，tag查重功能)</h2>
 <button (click)="deleteBook()" [disabled]="selectedBook.length === 0">删除选中的书籍</button>
 <button type="button" (click)="addBook()">增加书籍</button>
 
 
 <!-- Angular Material 表格 -->
-<table border="1" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-<!-- 根据ID选择 -->
+<!--Angular 的 *matCellDef 语法，用于遍历 dataSource 中的数据，每一行都会自动绑定当前行的 element 和 index 变量。-->
+
+<table border="1" mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+
+  <!-- 根据ID选择 -->
 <ng-container matColumnDef="checkbox">
   <th mat-header-cell *matHeaderCellDef> 选择 </th>
   <td mat-cell *matCellDef="let book">
@@ -14,13 +17,19 @@
   </td>
 </ng-container>
 
-
 <!--编辑按钮-->
 <ng-container matColumnDef="edit">
   <th mat-header-cell *matHeaderCellDef> 编辑 </th>
   <td mat-cell *matCellDef="let book">
     <a [routerLink]="['/admin/book/', book.bookId]">edit</a>
   </td>
+</ng-container>
+
+<!-- Position Column-->
+  <ng-container matColumnDef="demo-position">
+  <th mat-header-cell *matHeaderCellDef> No. </th>
+  <td mat-cell *matCellDef="let book; let i = index">
+    {{ getDisplayIndex(i) }}</td>
 </ng-container>
 
 <!-- ID -->
@@ -37,23 +46,23 @@
 
 <!-- 分类 -->
 <ng-container matColumnDef="category_id">
-  <th mat-header-cell *matHeaderCellDef mat-sort-header> 分类 </th>
+  <th mat-header-cell *matHeaderCellDef> 分类 </th>
   <td mat-cell *matCellDef="let book"> {{ book.category.categoryName }} </td>
 </ng-container>
 <!-- 分类 -->
 <ng-container matColumnDef="categoryName">
-  <th mat-header-cell *matHeaderCellDef mat-sort-header> //分类Id</th>
+  <th mat-header-cell *matHeaderCellDef> //分类Id</th>
   <td mat-cell *matCellDef="let book"> {{ book.category.categoryId }} </td>
 </ng-container>
 <!-- 价格 -->
 <ng-container matColumnDef="price">
-  <th mat-header-cell *matHeaderCellDef mat-sort-header> 价格 </th>
+  <th mat-header-cell *matHeaderCellDef> 价格 </th>
   <td mat-cell *matCellDef="let book"> {{ book.price | currency:'CNY' }} </td>
 </ng-container>
 
 <!-- 库存 -->
 <ng-container matColumnDef="counts">
-  <th mat-header-cell *matHeaderCellDef mat-sort-header> 库存 </th>
+  <th mat-header-cell *matHeaderCellDef> 库存 </th>
   <td mat-cell *matCellDef="let book"
       [ngClass]="{ 'out-of-stock' : book.counts === 0, 'low-stock': book.counts > 0 && book.counts < 5 }">
     {{ book.counts }}
@@ -62,19 +71,19 @@
 
 <!-- 状态 -->
 <ng-container matColumnDef="status">
-  <th mat-header-cell *matHeaderCellDef mat-sort-header> 状态 </th>
+  <th mat-header-cell *matHeaderCellDef> 状态 </th>
   <td mat-cell *matCellDef="let book"> {{ book.status === 1 ? '可借' : '不可借' }} </td>
 </ng-container>
 
 <!-- 创建时间 -->
 <ng-container matColumnDef="createTime">
-  <th mat-header-cell *matHeaderCellDef mat-sort-header> 创建时间 </th>
+  <th mat-header-cell *matHeaderCellDef> 创建时间 </th>
   <td mat-cell *matCellDef="let book"> {{ book.createTime | date:'yyyy-MM-dd HH:mm' }} </td>
 </ng-container>
 
 <!-- 更新时间 -->
 <ng-container matColumnDef="updateTime">
-  <th mat-header-cell *matHeaderCellDef mat-sort-header> 更新时间 </th>
+  <th mat-header-cell *matHeaderCellDef> 更新时间 </th>
   <td mat-cell *matCellDef="let book"> {{ book.updateTime | date:'yyyy-MM-dd HH:mm' }} </td>
 </ng-container>
 
@@ -91,7 +100,7 @@
 <mat-paginator [length]="totalElements"
                [pageSize]="pageSize"
                [pageSizeOptions]="[5, 10, 15]"
-               (page)="onPageChange($event)" style="width: 100%;">
+               (page)="onPageChange($event)">
 </mat-paginator>
 
 

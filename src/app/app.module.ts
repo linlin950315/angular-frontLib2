@@ -27,8 +27,7 @@ import { HomeComponent } from './home/home.component';
     BrowserAnimationsModule,
     MatButtonModule,
     MatIconModule,
-    MatPaginatorModule,
-    MatSortModule,
+    MatSortModule,//https://material.angular.io/components/sort/overview#adding-sort-to-table-headers
     FormsModule
 
   ],

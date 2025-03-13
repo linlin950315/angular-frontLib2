@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { AdminRoutingModule } from './admin-routing.module';
@@ -21,7 +22,8 @@ import { CategoriesComponent } from './categories/categories.component';
    ReactiveFormsModule,
    MatPaginatorModule,
    MatTableModule,
-   FormsModule
+   FormsModule,
+   MatSortModule,
   ]
 })
 export class AdminModule { }

@@ -23,6 +23,7 @@ export class CategoriesComponent implements OnInit{
       console.log('当前的分类ID+名称:' + this.showCategoryId, this.showCategoryName);
     });
   }
+
   // 更新显示的分类名称
   showCategory() {
     // 根据showCategoryId查找categories数组中的分类

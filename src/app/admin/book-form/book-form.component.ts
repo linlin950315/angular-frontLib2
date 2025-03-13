@@ -49,7 +49,7 @@ export class BookFormComponent implements OnInit {
 
   //2.根据bookId获取书籍信息并填充表单
   loadBook() {//也是两个，先判断新增还是编辑模式，再获取数据
-    if (String(this.bookId) === 'insert') {//TODO
+    if (String(this.bookId) === 'insert') {
     } else if (!isNaN(this.bookId)) {
       //console.log('L46bookService前loadBook() 被调用，bookId:', this.bookId);
       this.bookService.getBookById(this.bookId).subscribe(response => {
