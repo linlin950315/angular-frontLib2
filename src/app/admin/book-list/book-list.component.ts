@@ -80,21 +80,16 @@ export class BookListComponent implements OnInit {
       this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
       this.totalElements = data.totalElements; // 总条数
       this.totalPages = data.totalPages // 总页数
+
       // 绑定 MatSort 和 MatPaginator
-      this.dataSource.sort = this.sort; // 重新绑定排序
-      this.dataSource.paginator = this.paginator; // 重新绑定分页器
-      this.dataSource.sort.sortables; // 重新绑定排序
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
         // 手动更新 MatPaginator
-      //TODO:this.dataSource.data = data.content|| [];  分页器报错原因不明；如用.data则sort不失效
+      //TODO:this.dataSource.data = data.content|| [];这个分页器用不了；但是sort正常;
       console.log('dataSource', this.dataSource);
       console.log('totalElements,totalPages=', this.totalElements, this.totalPages);
       console.log('paginator.length', this.paginator.length);
       console.log('this.dataSource.sort.sortables', this.dataSource.sort.sortables);
-      if (!this.paginator) {
-        console.error('Paginator is undefined!');
-      } else {
-        console.log('Paginator found:', this.paginator);
-      }
     });
   }
 
