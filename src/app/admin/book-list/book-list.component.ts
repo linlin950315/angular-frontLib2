@@ -25,12 +25,16 @@ export class BookListComponent implements OnInit {
   pageSize = 15;
   currentPage = 0;
   page = 0;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;//@ViewChild() 装饰器用于获取模板中的元素或组件。
   //在组件类中定义了一个名为 paginator 的属性，并使用 @ViewChild(MatPaginator) 装饰器获取模板中的 paginator 元素。
+  @ViewChild(MatPaginator) paginator!: MatPaginator;//@ViewChild() 装饰器用于获取模板中的元素或组件。
   @ViewChild(MatSort) sort!: MatSort;//获取 MatSort 组件
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;//在 ngAfterViewInit() 生命周期钩子中，将 paginator 和 sort 分配给 dataSource。
+    setTimeout(() => {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+    //this.dataSource.paginator = this.paginator;
+    //this.dataSource.sort = this.sort;//在 ngAfterViewInit() 生命周期钩子中，将 paginator 和 sort 分配给 dataSource。
     //console.log('确保 MatSort 组件存在', this.sort); // 确保 MatSort 组件存在
     //console.log('确保 MatPaginator 组件存在', this.paginator); // 确保 MatPaginator 组件存在
     //console.log('Sorting Data Accessor:', this.dataSource.sortingDataAccessor);
@@ -38,7 +42,7 @@ export class BookListComponent implements OnInit {
   constructor(
     private bookService: BookService, //bookService：用于获取书籍信息。
     private router: Router, //router：用于 跳转页面。
-    private _liveAnnouncer: LiveAnnouncer//LiveAnnouncer：用于向屏幕阅读器发送消息。
+    private _liveAnnouncer: LiveAnnouncer,//LiveAnnouncer：用于向屏幕阅读器发送消息。
   ) { }
   //构造函数中注入 BookService，用于调用 API 获取书籍数据。
 
@@ -76,16 +80,21 @@ export class BookListComponent implements OnInit {
       this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
       this.totalElements = data.totalElements; // 总条数
       this.totalPages = data.totalPages // 总页数
-
       // 绑定 MatSort 和 MatPaginator
       this.dataSource.sort = this.sort; // 重新绑定排序
       this.dataSource.paginator = this.paginator; // 重新绑定分页器
       this.dataSource.sort.sortables; // 重新绑定排序
+        // 手动更新 MatPaginator
       //TODO:this.dataSource.data = data.content|| [];  分页器报错原因不明；如用.data则sort不失效
       console.log('dataSource', this.dataSource);
       console.log('totalElements,totalPages=', this.totalElements, this.totalPages);
       console.log('paginator.length', this.paginator.length);
       console.log('this.dataSource.sort.sortables', this.dataSource.sort.sortables);
+      if (!this.paginator) {
+        console.error('Paginator is undefined!');
+      } else {
+        console.log('Paginator found:', this.paginator);
+      }
     });
   }
 
@@ -94,7 +103,7 @@ export class BookListComponent implements OnInit {
     this.currentPage = pageEvent.pageIndex; //设置当前页 MatPaginator 从 0 开始
     this.pageSize = pageEvent.pageSize; //设置每页显示的条数
     this.loadBooks();
-    console.log('onPageChange,currentPage,pageSize', this.currentPage, this.pageSize);
+    console.log('onPageChange,currentPage,pageSize,totalememant', this.currentPage, this.pageSize,this.totalElements);
   }
 
   // 切换选中状态
@@ -146,6 +155,7 @@ export class BookListComponent implements OnInit {
   getDisplayIndex(index: number): number {
     return this.currentPage * this.pageSize + index + 1;
   }
+
 
 }
 

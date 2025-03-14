@@ -1,9 +1,7 @@
 <p>book-list works!</p>
-<h2>📚 书籍列表(加分页 排序功能NGNG 根据categoryID筛选功能 打tag，一个bookid，对应多个tag，tag查重功能)</h2>
+<h2>📚 书籍列表(加分页 排序功能NG 查找功能 根据categoryID筛选功能 打tag，一个bookid，对应多个tag，tag查重功能)</h2>
 <button (click)="deleteBook()" [disabled]="selectedBook.length === 0">删除选中的书籍</button>
 <button type="button" (click)="addBook()">增加书籍</button>
-
-
 <!-- Angular Material 表格 -->
 <!--Angular 的 *matCellDef 语法，用于遍历 dataSource 中的数据，每一行都会自动绑定当前行的 element 和 index 变量。-->
 
@@ -13,7 +11,7 @@
 <ng-container matColumnDef="checkbox">
   <th mat-header-cell *matHeaderCellDef> 选择 </th>
   <td mat-cell *matCellDef="let book">
-    <input type="checkbox" [value]="book.book_id" (change)="toggleSelection(book.bookId)" >
+    <input type="checkbox" [value]="book.bookId" (change)="toggleSelection(book.bookId)" >
   </td>
 </ng-container>
 
@@ -93,13 +91,21 @@
 <!-- 数据行 -->
 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-</table>
-<!-- Angular Material 表格 -->
+<!-- Row shown when there is no matching data.
+ <tr class="mat-row" *matNoDataRow>
+  <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+</tr>-->
 
-<!-- 分页器 -->
+</table>
+<!-- -->
+<!--分页 https://material.angular.io/components/table/examples
+<mat-paginator
+[pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>-->
+
+<!-- 分页器 这个和ts的this.dataSource.data = data.content|| []; 会出问题；和this.dataSource一起，sort失效-->
 <mat-paginator [length]="totalElements"
                [pageSize]="pageSize"
-               [pageSizeOptions]="[5, 10, 15]"
+               [pageSizeOptions]="[5, 10, 15, 25]"
                (page)="onPageChange($event)">
 </mat-paginator>
 
