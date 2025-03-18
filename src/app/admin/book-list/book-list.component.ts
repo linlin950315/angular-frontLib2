@@ -88,7 +88,7 @@ export class BookListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort.sortables; // 重新绑定排序
         // 手动更新 MatPaginator
-      //TODO:this.dataSource.data = data.content|| [];这个分页器用不了；但是sort正常;
+      //TODO:this.dataSource.data = data.content|| [];  分页器报错原因不明；如用.data则sort不失效
       console.log('dataSource', this.dataSource);
       console.log('totalElements,totalPages=', this.totalElements, this.totalPages);
       console.log('paginator.length', this.paginator.length);
@@ -145,8 +145,8 @@ export class BookListComponent implements OnInit {
   }
   announceSortChange(sortState: any) {
     console.log("announceSortChange start------------");
-    //const sortState = event as Sort; // 在 TypeScript 里进行类型断言
     if (sortState.direction) {
+      //console.log("sortState.direction", sortState.direction);
       this._liveAnnouncer.announce(`sorted ${sortState.direction}ending`);
     } else {
       this._liveAnnouncer.announce('sorting cleared');
@@ -157,6 +157,14 @@ export class BookListComponent implements OnInit {
     return this.currentPage * this.pageSize + index + 1;
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 
 }
 
