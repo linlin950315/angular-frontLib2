@@ -25,6 +25,7 @@ export class BookListComponent implements OnInit {
   pageSize = 15;
   currentPage = 0;
   page = 0;
+
   //在组件类中定义了一个名为 paginator 的属性，并使用 @ViewChild(MatPaginator) 装饰器获取模板中的 paginator 元素。
   @ViewChild(MatPaginator) paginator!: MatPaginator;//@ViewChild() 装饰器用于获取模板中的元素或组件。
   @ViewChild(MatSort) sort!: MatSort;//获取 MatSort 组件
@@ -73,23 +74,28 @@ export class BookListComponent implements OnInit {
   //     // }
   //   });
   // 加载书籍
+  // 加载书籍
   loadBooks() {
+    // 调用 bookService 的 getBooks 方法获取书籍数据
     this.bookService.getBooks(this.currentPage, this.pageSize).subscribe((data: any) => {
       console.log('API Response:', data);
       // 使用 setData 方法更新数据
       this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
       this.totalElements = data.totalElements; // 总条数
       this.totalPages = data.totalPages // 总页数
-
       // 绑定 MatSort 和 MatPaginator
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
+      this.dataSource.sort.sortables; // 重新绑定排序
         // 手动更新 MatPaginator
       //TODO:this.dataSource.data = data.content|| [];这个分页器用不了；但是sort正常;
       console.log('dataSource', this.dataSource);
       console.log('totalElements,totalPages=', this.totalElements, this.totalPages);
       console.log('paginator.length', this.paginator.length);
       console.log('this.dataSource.sort.sortables', this.dataSource.sort.sortables);
+      console.log("后面要用this.dataSource.paginator:",this.dataSource.paginator);
+      console.log("后面要用this.dataSource.paginator.firstPage():",this.dataSource.paginator.firstPage());
+
     });
   }
 
