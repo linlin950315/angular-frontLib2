@@ -11,10 +11,16 @@ export class BookService {
 
   constructor(private http: HttpClient) { }
 
-  //OK
+  //readAll(delfaultSortbyId)
   getBooks(page: number, size: number): Observable<any[]> {
     return this.http.get<any>(`${this.apiUrl}/admin/book`, {
       params: { page: page.toString(), size: size.toString() }
+    });
+  }
+  //readAll(sort by bookname)
+  readAllsortBybookName(page: number, size: number,sortBy: String,descOrAsc: String): Observable<any[]> {
+    return this.http.get<any>(`${this.apiUrl}/admin/book/sortBybookNameAsc`, {
+      params: { page: page.toString(), size: size.toString(),sortBy: sortBy.toString(),direction:descOrAsc.toString() }
     });
   }
 

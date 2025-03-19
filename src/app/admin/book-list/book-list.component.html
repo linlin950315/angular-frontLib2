@@ -4,12 +4,9 @@
 <button type="button" (click)="addBook()">增加书籍</button>
 <!-- Angular Material 表格 -->
 <!--Angular 的 *matCellDef 语法，用于遍历 dataSource 中的数据，每一行都会自动绑定当前行的 element 和 index 变量。-->
-<mat-form-field>
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
-</mat-form-field>
+
 <div class="mat-elevation-z8">
-<table border="1" mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+<table border="1" mat-table [dataSource]="dataSource" >
 
   <!-- 根据ID选择 -->
 <ng-container matColumnDef="checkbox">
@@ -36,14 +33,14 @@
 
 <!-- ID -->
 <ng-container matColumnDef="bookId">
-  <th mat-header-cell *matHeaderCellDef mat-sort-header> BOOKID </th>
+  <th mat-header-cell *matHeaderCellDef > BOOKID </th>
   <td mat-cell *matCellDef="let book"> {{ book.bookId }} </td>
 </ng-container>
 
 <!-- 书名 -->
-<ng-container matColumnDef="book_name">
-  <th mat-header-cell *matHeaderCellDef mat-sort-header > 书名 </th>
-  <td mat-cell *matCellDef="let book"> {{ book.book_name }} </td>
+<ng-container matColumnDef="bookName">
+  <th mat-header-cell *matHeaderCellDef  > 书名  <button mat-button (click)="sortBybookName()">🔃</button></th>
+  <td mat-cell *matCellDef="let book"> {{ book.bookName }} </td>
 </ng-container>
 
 <!-- 分类 -->

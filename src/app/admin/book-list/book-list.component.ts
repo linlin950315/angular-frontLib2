@@ -16,7 +16,7 @@ export class BookListComponent implements OnInit {
   //bookForm: any[] = [];
   selectedBook: number[] = []; // 存储选中的书籍 ID
   // 和html交互的表格列名
-  displayedColumns: string[] = ['edit', 'demo-position', 'checkbox', 'bookId', 'book_name', 'category_id', 'categoryName', 'price', 'counts', 'status', 'createTime', 'updateTime'];
+  displayedColumns: string[] = ['edit', 'demo-position', 'checkbox', 'bookId', 'bookName', 'category_id', 'categoryName', 'price', 'counts', 'status', 'createTime', 'updateTime'];
   dataSource = new MatTableDataSource<any>([]);
   //分页
   pageEvent = PageEvent;
@@ -25,6 +25,9 @@ export class BookListComponent implements OnInit {
   pageSize = 15;
   currentPage = 0;
   page = 0;
+  sortBy = '';
+  descOrAsc = 'ASC';
+
 
   //在组件类中定义了一个名为 paginator 的属性，并使用 @ViewChild(MatPaginator) 装饰器获取模板中的 paginator 元素。
   @ViewChild(MatPaginator) paginator!: MatPaginator;//@ViewChild() 装饰器用于获取模板中的元素或组件。
@@ -86,15 +89,15 @@ export class BookListComponent implements OnInit {
       // 绑定 MatSort 和 MatPaginator
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort.sortables; // 重新绑定排序
+      //this.dataSource.sort.sortables; // 重新绑定排序
         // 手动更新 MatPaginator
       //TODO:this.dataSource.data = data.content|| [];  分页器报错原因不明；如用.data则sort不失效
-      console.log('dataSource', this.dataSource);
-      console.log('totalElements,totalPages=', this.totalElements, this.totalPages);
-      console.log('paginator.length', this.paginator.length);
-      console.log('this.dataSource.sort.sortables', this.dataSource.sort.sortables);
-      console.log("后面要用this.dataSource.paginator:",this.dataSource.paginator);
-      console.log("后面要用this.dataSource.paginator.firstPage():",this.dataSource.paginator.firstPage());
+      // console.log('dataSource', this.dataSource);
+      // console.log('totalElements,totalPages=', this.totalElements, this.totalPages);
+      // console.log('paginator.length', this.paginator.length);
+      // console.log('this.dataSource.sort.sortables', this.dataSource.sort.sortables);
+      // console.log("后面要用this.dataSource.paginator:",this.dataSource.paginator);
+      // console.log("后面要用this.dataSource.paginator.firstPage():",this.dataSource.paginator.firstPage());
 
     });
   }
@@ -143,29 +146,29 @@ export class BookListComponent implements OnInit {
   addBook() {
     this.router.navigate(['/admin/book/insert']); //仅按钮
   }
-  announceSortChange(sortState: any) {
-    console.log("announceSortChange start------------");
-    if (sortState.direction) {
-      //console.log("sortState.direction", sortState.direction);
-      this._liveAnnouncer.announce(`sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('sorting cleared');
-    }
-  }
+  // announceSortChange(sortState: any) {
+  //   console.log("announceSortChange start------------");
+  //   if (sortState.direction) {
+  //     //console.log("sortState.direction", sortState.direction);
+  //     this._liveAnnouncer.announce(`sorted ${sortState.direction}ending`);
+  //   } else {
+  //     this._liveAnnouncer.announce('sorting cleared');
+  //   }
+  // }
 
   getDisplayIndex(index: number): number {
     return this.currentPage * this.pageSize + index + 1;
   }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+  sortBybookName() {
+    this.bookService.readAllsortBybookName(this.currentPage, this.pageSize, 'bookName', this.descOrAsc).subscribe((data: any) => {
+      console.log('SortNameAPI Response:', data);
+      this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
+      this.totalElements = data.totalElements; // 总条数
+      this.totalPages = data.totalPages // 总页数
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    });
   }
-
 }
 
 
