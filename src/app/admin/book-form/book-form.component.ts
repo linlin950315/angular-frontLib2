@@ -56,7 +56,7 @@ export class BookFormComponent implements OnInit {
         console.log('L59bookService被调用response:', response);
         if (response && response.data) {
           this.bookForm.patchValue({ //将获取到的数据填充到表单
-            bookName: response.data.book_name,
+            bookName: response.data.bookName,
             bookId: response.data.bookId,
             categoryId: response.data.category.categoryId,
             //categoryName: response.data.category.categoryName, // TODO这里变成下拉菜单显示名字

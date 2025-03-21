@@ -18,9 +18,9 @@ export class BookService {
     });
   }
   //readAll(sort by bookname)
-  readAllsortBybookName(page: number, size: number,sortBy: String,descOrAsc: String): Observable<any[]> {
-    return this.http.get<any>(`${this.apiUrl}/admin/book/sortBybookNameAsc`, {
-      params: { page: page.toString(), size: size.toString(),sortBy: sortBy.toString(),direction:descOrAsc.toString() }
+  readAllsortBy(page: number, size: number, sortBy: String, descOrAsc: String): Observable<any[]> {
+    return this.http.get<any>(`${this.apiUrl}/admin/book/sortBy`, {
+      params: { page: page, size: size, sortBy: sortBy.toString(), descOrAsc: descOrAsc.toString() }
     });
   }
 
@@ -32,11 +32,11 @@ export class BookService {
   insertABook(bookInfo: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/admin/book/insert`, bookInfo);
   }
-//Ok
+  //Ok
   updateBook(bookInfoAndId: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/admin/book`,bookInfoAndId);
+    return this.http.put<any>(`${this.apiUrl}/admin/book`, bookInfoAndId);
   }
-//delete OK
+  //delete OK
   deleteBook(bookId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/admin/book/${bookId}`);
   }

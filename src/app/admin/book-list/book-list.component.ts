@@ -90,7 +90,7 @@ export class BookListComponent implements OnInit {
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       //this.dataSource.sort.sortables; // 重新绑定排序
-        // 手动更新 MatPaginator
+      // 手动更新 MatPaginator
       //TODO:this.dataSource.data = data.content|| [];  分页器报错原因不明；如用.data则sort不失效
       // console.log('dataSource', this.dataSource);
       // console.log('totalElements,totalPages=', this.totalElements, this.totalPages);
@@ -107,7 +107,7 @@ export class BookListComponent implements OnInit {
     this.currentPage = pageEvent.pageIndex; //设置当前页 MatPaginator 从 0 开始
     this.pageSize = pageEvent.pageSize; //设置每页显示的条数
     this.loadBooks();
-    console.log('onPageChange,currentPage,pageSize,totalememant', this.currentPage, this.pageSize,this.totalElements);
+    console.log('onPageChange,currentPage,pageSize,totalememant', this.currentPage, this.pageSize, this.totalElements);
   }
 
   // 切换选中状态
@@ -159,16 +159,64 @@ export class BookListComponent implements OnInit {
   getDisplayIndex(index: number): number {
     return this.currentPage * this.pageSize + index + 1;
   }
-  sortBybookName() {
-    this.bookService.readAllsortBybookName(this.currentPage, this.pageSize, 'bookName', this.descOrAsc).subscribe((data: any) => {
-      console.log('SortNameAPI Response:', data);
-      this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
-      this.totalElements = data.totalElements; // 总条数
-      this.totalPages = data.totalPages // 总页数
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-    });
+  //点bookname 排列书名.descOrAsc默认ASC
+  readAllsortByName() {
+      //最开始loadbook的时候默认asc
+      console.log('readAllsortBy name start--------');
+    if (this.descOrAsc === 'ASC') {
+      this.descOrAsc = 'DESC';
+      this.bookService.readAllsortBy(this.currentPage, this.pageSize, 'bookName', this.descOrAsc).subscribe((data: any) => {
+        console.log('Sort Name API currentpage' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc' + this.descOrAsc);
+        console.log('Sort Name API Response:', data);
+        this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
+        this.totalElements = data.totalElements; // 总条数
+        this.totalPages = data.totalPages // 总页数
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      });
+    } else if(this.descOrAsc === 'DESC'){
+      this.descOrAsc = 'ASC';
+      this.bookService.readAllsortBy(this.currentPage, this.pageSize, 'bookName', this.descOrAsc).subscribe((data: any) => {
+        console.log('Sort Name API currentpage' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc' + this.descOrAsc);
+        console.log('Sort Name API Response:', data);
+        this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
+        this.totalElements = data.totalElements; // 总条数
+        this.totalPages = data.totalPages // 总页数
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      });
+    }
+
   }
+
+  //点BOOKID排id倒叙
+  readAllsortById() {
+    //最开始loadbook的时候默认asc
+    console.log('readAllsortById start--------');
+    if (this.descOrAsc === 'ASC') {//delf asc
+      this.descOrAsc = 'DESC';
+      this.bookService.readAllsortBy(this.currentPage, this.pageSize, 'bookId', this.descOrAsc).subscribe((data: any) => {
+        console.log('Sort ID API currentpage' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc:' + this.descOrAsc);
+        this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
+        this.totalElements = data.totalElements; // 总条数
+        this.totalPages = data.totalPages // 总页数
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        console.log('after reload-------' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc:' + this.descOrAsc);
+      });
+    } else if(this.descOrAsc === 'DESC'){ //this.descOrAsc === 'DESC'
+      this.descOrAsc = 'ASC';
+      this.bookService.readAllsortBy(this.currentPage, this.pageSize, 'bookId', this.descOrAsc).subscribe((data: any) => {
+        console.log('Sort ID API currentpage' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc:' + this.descOrAsc);
+        this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
+        this.totalElements = data.totalElements; // 总条数
+        this.totalPages = data.totalPages // 总页数
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      });
+    }
+  }
+
 }
 
 
