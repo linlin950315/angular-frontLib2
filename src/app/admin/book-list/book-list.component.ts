@@ -51,7 +51,7 @@ export class BookListComponent implements OnInit {
 
   ngOnInit(): void {//ngOnInit() 在组件创建后会自动执行。
     console.log('BookListComponent 初始化');
-    this.loadBooks();//调用 loadBooks() 方法，从后端加载书籍数据。
+    this.searchBooks(new PageEvent());//调用 loadBooks() 方法，从后端加载书籍数据。
   }
 
   // allBooks(): void {
@@ -76,40 +76,56 @@ export class BookListComponent implements OnInit {
   //     // }
   //   });
   // 加载书籍
-  // 加载书籍
-  loadBooks() {
-    // 调用 bookService 的 getBooks 方法获取书籍数据
-    this.bookService.getBooks(this.currentPage, this.pageSize).subscribe((data: any) => {
-      console.log('loadbook() API Response:', data);
-      // 使用 setData 方法更新数据
+
+  // loadBooks() {
+  //   // 调用 bookService 的 getBooks 方法获取书籍数据
+  //   this.bookService.getBooks(this.currentPage, this.pageSize).subscribe((data: any) => {
+  //     console.log('loadbook() API Response:', data);
+  //     // 使用 setData 方法更新数据
+  //     this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
+  //     this.totalElements = data.totalElements; // 总条数
+  //     this.totalPages = data.totalPages // 总页数
+  //     // 绑定 MatSort 和 MatPaginator
+  //     this.dataSource.sort = this.sort;
+  //     this.dataSource.paginator = this.paginator;
+  //     //this.dataSource.sort.sortables; // 重新绑定排序
+  //     // 手动更新 MatPaginator
+  //     //TODO:this.dataSource.data = data.content|| [];  分页器报错原因不明；如用.data则sort不失效
+  //     //console.log('dataSource', this.dataSource);
+  //     // console.log('totalElements,totalPages=', this.totalElements, this.totalPages);
+  //     // console.log('paginator.length', this.paginator.length);
+  //     // console.log('this.dataSource.sort.sortables', this.dataSource.sort.sortables);
+  //     // console.log("后面要用this.dataSource.paginator:",this.dataSource.paginator);
+  //     // console.log("后面要用this.dataSource.paginator.firstPage():",this.dataSource.paginator.firstPage());
+  //   });
+  // }
+  // 加载书籍load all books, sort, page
+  searchBooks(event: any) {
+    console.log('searchBooks start--------');
+    //从前端取输入的keyword
+    const searchKeyword = this.searchKeyword.trim().toLowerCase();  // 使用 this.searchKeyword
+    console.log('searchKeyword:', searchKeyword);
+    this.bookService.searchBooks(searchKeyword, this.currentPage, this.pageSize, 'bookId', this.descOrAsc).subscribe((data: any) => {
+      console.log('searchBooksAPI currentpage' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc:' + this.descOrAsc);
+      //页面显示data取得的信息
       this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
+      console.log('searchBooks this.dataSource API Response:', this.dataSource);
       this.totalElements = data.totalElements; // 总条数
       this.totalPages = data.totalPages // 总页数
-      // 绑定 MatSort 和 MatPaginator
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      //this.dataSource.sort.sortables; // 重新绑定排序
-      // 手动更新 MatPaginator
-      //TODO:this.dataSource.data = data.content|| [];  分页器报错原因不明；如用.data则sort不失效
-      //console.log('dataSource', this.dataSource);
-      // console.log('totalElements,totalPages=', this.totalElements, this.totalPages);
-      // console.log('paginator.length', this.paginator.length);
-      // console.log('this.dataSource.sort.sortables', this.dataSource.sort.sortables);
-      // console.log("后面要用this.dataSource.paginator:",this.dataSource.paginator);
-      // console.log("后面要用this.dataSource.paginator.firstPage():",this.dataSource.paginator.firstPage());
-
     });
   }
-
   onPageChange(pageEvent: PageEvent) {
     console.log('Page Event:', pageEvent);
     this.currentPage = pageEvent.pageIndex; //设置当前页 MatPaginator 从 0 开始
     this.pageSize = pageEvent.pageSize; //设置每页显示的条数
-    this.loadBooks();
+    //this.loadbooks();
+    this.searchBooks(pageEvent);
     console.log('onPageChange,currentPage,pageSize,totalememant', this.currentPage, this.pageSize, this.totalElements);
   }
 
-  // 切换选中状态
+
   // 切换书籍选择状态
   toggleSelection(toggedBookId: number) {
     // 获取已选择书籍数组中指定书籍的索引
@@ -135,7 +151,8 @@ export class BookListComponent implements OnInit {
 
     forkJoin(deleteRequests).subscribe({
       next: () => {
-        this.loadBooks(); // 重新加载数据
+        //this.loadBooks(); // 重新加载数据
+        this.searchBooks(this.pageEvent); // 重新加载数据
         this.selectedBook = []; // 清空选择
         alert('删除成功');
       },
@@ -215,22 +232,6 @@ export class BookListComponent implements OnInit {
       });
     }
   }
-  //load sort page
-  searchBooks(event: any) {
-    console.log('searchBooks start--------');
-    //从前端取输入的keyword
-    const searchKeyword = this.searchKeyword.trim().toLowerCase();  // 使用 this.searchKeyword
-    console.log('searchKeyword:', searchKeyword);
-    this.bookService.searchBooks(searchKeyword, this.currentPage, this.pageSize, 'bookId', this.descOrAsc).subscribe((data: any) => {
-      console.log('searchBooksAPI currentpage' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc:' + this.descOrAsc);
-      //页面显示data取得的信息
-      this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
-      console.log('searchBooks this.dataSource API Response:', this.dataSource);
-      this.totalElements = data.totalElements; // 总条数
-      this.totalPages = data.totalPages // 总页数
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-    });
 
-  }
+
 }
