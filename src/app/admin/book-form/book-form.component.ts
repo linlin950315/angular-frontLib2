@@ -121,7 +121,7 @@ export class BookFormComponent implements OnInit {
       const bookInfo = {
         book_name: this.bookForm.value.bookName,
         //book_id: this.bookForm.value.bookId,
-        categoryId:this.bookForm.value.categoryId,
+        categoryId: this.bookForm.value.categoryId,
         price: this.bookForm.value.price,
         counts: this.bookForm.value.counts,
         status: this.bookForm.value.status,

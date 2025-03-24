@@ -17,6 +17,14 @@ export class BookService {
       params: { page: page.toString(), size: size.toString() }
     });
   }
+
+  // 根据关键词搜索书籍
+  searchBooks(keyword: String, page: number, size: number, sortBy: String, descOrAsc: String): Observable<any[]> {
+    return this.http.get<any>(`${this.apiUrl}/admin/book/search`, {
+      params: { keyword: keyword.toString(), page: page, size: size, sortBy: sortBy.toString(), descOrAsc: descOrAsc.toString() }
+    });
+  }
+
   //readAll(sort by bookname)
   readAllsortBy(page: number, size: number, sortBy: String, descOrAsc: String): Observable<any[]> {
     return this.http.get<any>(`${this.apiUrl}/admin/book/sortBy`, {
@@ -40,6 +48,9 @@ export class BookService {
   deleteBook(bookId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/admin/book/${bookId}`);
   }
+  //
+
+
   // closeDialog(): Observable<void> {
   //   return this.http.get<void>(`${this.apiUrl}/admin/book`);
   // }
