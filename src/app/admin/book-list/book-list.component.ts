@@ -27,6 +27,8 @@ export class BookListComponent implements OnInit {
   sortBy = '';
   descOrAsc = 'ASC';
   searchKeyword: string = '';
+  categoryId: number | null = null;  // 允许为空
+
   //books: Book[] = [];
 
   //在组件类中定义了一个名为 paginator 的属性，并使用 @ViewChild(MatPaginator) 装饰器获取模板中的 paginator 元素。
@@ -51,7 +53,7 @@ export class BookListComponent implements OnInit {
 
   ngOnInit(): void {//ngOnInit() 在组件创建后会自动执行。
     console.log('BookListComponent 初始化');
-    this.searchBooks(new PageEvent());//调用 loadBooks() 方法，从后端加载书籍数据。
+    this.loadbook(new PageEvent());//调用 loadBooks() 方法，从后端加载书籍数据。
   }
 
   // allBooks(): void {
@@ -100,28 +102,44 @@ export class BookListComponent implements OnInit {
   //   });
   // }
   // 加载书籍load all books, sort, page
-  searchBooks(event: any) {
+  loadbook(event: any) {
     console.log('searchBooks start--------');
-    //从前端取输入的keyword
+    //TODO:从前端取输入的keyword
     const searchKeyword = this.searchKeyword.trim().toLowerCase();  // 使用 this.searchKeyword
-    console.log('searchKeyword:', searchKeyword);
-    this.bookService.searchBooks(searchKeyword, this.currentPage, this.pageSize, 'bookId', this.descOrAsc).subscribe((data: any) => {
-      console.log('searchBooksAPI currentpage' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc:' + this.descOrAsc);
-      //页面显示data取得的信息
-      this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
-      console.log('searchBooks this.dataSource API Response:', this.dataSource);
-      this.totalElements = data.totalElements; // 总条数
-      this.totalPages = data.totalPages // 总页数
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-    });
+    const categoryId = this.categoryId;
+    //早点判断categoryId是否为空
+    if (!categoryId) {
+      console.log('searchKeyword:', searchKeyword,'categoryId:', categoryId);
+      this.bookService.searchBooks(searchKeyword, this.currentPage, this.pageSize, 'bookId', this.descOrAsc,this.categoryId).subscribe((data: any) => {
+        console.log('searchBooksAPI currentpage' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc:' + this.descOrAsc);
+        //页面显示data取得的信息
+        this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
+        console.log('searchBooks this.dataSource API Response:', this.dataSource);
+        this.totalElements = data.totalElements; // 总条数
+        this.totalPages = data.totalPages // 总页数
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      });
+    }else{
+      console.log('searchKeyword:', searchKeyword,'categoryId:', categoryId);
+      this.bookService.searchBooks(searchKeyword, this.currentPage, this.pageSize, 'bookId', this.descOrAsc,this.categoryId).subscribe((data: any) => {
+        console.log('searchBooksAPI currentpage' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc:' + this.descOrAsc);
+        //页面显示data取得的信息
+        this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
+        console.log('searchBooks this.dataSource API Response:', this.dataSource);
+        this.totalElements = data.totalElements; // 总条数
+        this.totalPages = data.totalPages // 总页数
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      });
+    }
+
   }
   onPageChange(pageEvent: PageEvent) {
     console.log('Page Event:', pageEvent);
     this.currentPage = pageEvent.pageIndex; //设置当前页 MatPaginator 从 0 开始
     this.pageSize = pageEvent.pageSize; //设置每页显示的条数
-    //this.loadbooks();
-    this.searchBooks(pageEvent);
+    this.loadbook(pageEvent);
     console.log('onPageChange,currentPage,pageSize,totalememant', this.currentPage, this.pageSize, this.totalElements);
   }
 
@@ -151,8 +169,8 @@ export class BookListComponent implements OnInit {
 
     forkJoin(deleteRequests).subscribe({
       next: () => {
-        //this.loadBooks(); // 重新加载数据
-        this.searchBooks(this.pageEvent); // 重新加载数据
+        this.loadbook(this.pageEvent); // 重新加载数据
+        //this.searchBooks(this.pageEvent); // 重新加载数据
         this.selectedBook = []; // 清空选择
         alert('删除成功');
       },

@@ -144,7 +144,9 @@ export class BookFormComponent implements OnInit {
   }
 
 
+  // 返回上一页
   goBack() {
+    // 使用路由器导航到管理员书籍页面
     this.router.navigate(['/admin/book']);
   }
 }

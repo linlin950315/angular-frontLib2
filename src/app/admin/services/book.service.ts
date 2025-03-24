@@ -19,9 +19,10 @@ export class BookService {
   }
 
   // 根据关键词搜索书籍
-  searchBooks(keyword: String, page: number, size: number, sortBy: String, descOrAsc: String): Observable<any[]> {
+  searchBooks(keyword: String, page: number, size: number, sortBy: String, descOrAsc: String, categoryId: number|null): Observable<any[]> {
     return this.http.get<any>(`${this.apiUrl}/admin/book/search`, {
-      params: { keyword: keyword.toString(), page: page, size: size, sortBy: sortBy.toString(), descOrAsc: descOrAsc.toString() }
+      //TODO:categoryId:categoryId===null?'':categoryId.toString() 这个判断不熟
+      params: { keyword: keyword.toString(), page: page, size: size, sortBy: sortBy.toString(), descOrAsc: descOrAsc.toString(), categoryId:categoryId===null?'':categoryId.toString() }
     });
   }
 
