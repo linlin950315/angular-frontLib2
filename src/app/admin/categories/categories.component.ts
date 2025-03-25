@@ -7,10 +7,11 @@ import { CategoryService } from '../services/category.service';
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'
 })
-export class CategoriesComponent implements OnInit{
+export class CategoriesComponent implements OnInit {
   @Input() showCategoryId: number | null = null; // 从后端来的 绑定当前 显示的分类
   @Output() categoryChange = new EventEmitter<any>(); //定义EventEmitter， Emitter组件之间传递 解耦 子组件向父组件发送事件
   categories: { categoryId: number; categoryName: string }[] = []; // 分类列表
+
   showCategoryName: string = ''; // 显示的分类名称
 
   constructor(private categoryService: CategoryService) { }

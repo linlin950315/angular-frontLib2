@@ -28,8 +28,8 @@ export class BookListComponent implements OnInit {
   descOrAsc = 'ASC';
   searchKeyword: string = '';
   categoryId: number | null = null;  // 允许为空
+  selectedCategoryId: number | null = null; // 选中的分类ID
 
-  //books: Book[] = [];
 
   //在组件类中定义了一个名为 paginator 的属性，并使用 @ViewChild(MatPaginator) 装饰器获取模板中的 paginator 元素。
   @ViewChild(MatPaginator) paginator!: MatPaginator;//@ViewChild() 装饰器用于获取模板中的元素或组件。
@@ -118,6 +118,7 @@ export class BookListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     });
   }
+
 
   //前端各方法
   onPageChange(pageEvent: PageEvent) {
@@ -236,6 +237,13 @@ export class BookListComponent implements OnInit {
       });
     }
   }
+  // 根据分类 ID 过滤书籍
+  selectCategoryName(selectedCategoryId: number) {
+    console.log('selectCategoryName input', selectedCategoryId);
+    this.categoryId =selectedCategoryId;
+    console.log('选中的分类 ID:', this.categoryId);
+  }
+
 }
 
 

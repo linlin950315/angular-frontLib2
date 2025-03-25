@@ -2,20 +2,15 @@
 <h2>📚 书籍列表(加分页ok 排序功能ok 查找功能ok 根据categoryID筛选功能ok 打tag，一个bookid，对应多个tag，tag查重功能)</h2>
 <button (click)="deleteBook()" [disabled]="selectedBook.length === 0">删除选中的书籍</button>
 <button type="button" (click)="addBook()">增加书籍</button>
-<!-- Angular Material 表格 -->
-<!--Angular 的 *matCellDef 语法，用于遍历 dataSource 中的数据，每一行都会自动绑定当前行的 element 和 index 变量。-->
-
+<br>
 
 <!-- 搜索框 -->
 <input type="text" [(ngModel)]="searchKeyword" placeholder="please type searchKeyword">
-<input type="text" [(ngModel)]="categoryId" placeholder="please type categoryId">
+<!--<input type="text" [(ngModel)]="categoryId" placeholder="please type categoryId"> -->
 <button (click)="loadbook($event)">搜索</button>
+<br>
 
-
-<label>TODO分类名称:</label>
-<app-categories
->
-</app-categories>
+<app-categories [showCategoryId]="categoryId" (categoryChange)="selectCategoryName($event)"></app-categories>
 
 <div class="mat-elevation-z8">
   <table border="1" mat-table [dataSource]="dataSource">
