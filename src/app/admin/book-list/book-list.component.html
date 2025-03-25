@@ -7,11 +7,15 @@
 
 
 <!-- 搜索框 -->
-<input type="text" [(ngModel)]="searchKeyword" placeholder="---">
+<input type="text" [(ngModel)]="searchKeyword" placeholder="please type searchKeyword">
+<input type="text" [(ngModel)]="categoryId" placeholder="please type categoryId">
 <button (click)="loadbook($event)">搜索</button>
 
-<label>TODO分类名称:</label>
 
+<label>TODO分类名称:</label>
+<app-categories
+>
+</app-categories>
 
 <div class="mat-elevation-z8">
   <table border="1" mat-table [dataSource]="dataSource">

@@ -14,7 +14,7 @@ export class BookService {
   //readAll(delfaultSortbyId)
   getBooks(page: number, size: number): Observable<any[]> {
     return this.http.get<any>(`${this.apiUrl}/admin/book`, {
-      params: { page: page.toString(), size: size.toString() }
+      params: { page: page.toString(), size: size.toString() } //给ts文件内的方法传入参的值和形式
     });
   }
 
@@ -27,11 +27,11 @@ export class BookService {
   }
 
   //readAll(sort by bookname)
-  readAllsortBy(page: number, size: number, sortBy: String, descOrAsc: String): Observable<any[]> {
-    return this.http.get<any>(`${this.apiUrl}/admin/book/sortBy`, {
-      params: { page: page, size: size, sortBy: sortBy.toString(), descOrAsc: descOrAsc.toString() }
-    });
-  }
+  // readAllsortBy(page: number, size: number, sortBy: String, descOrAsc: String): Observable<any[]> {
+  //   return this.http.get<any>(`${this.apiUrl}/admin/book/sortBy`, {
+  //     params: { page: page, size: size, sortBy: sortBy.toString(), descOrAsc: descOrAsc.toString() }
+  //   });
+  // }
 
   // 根据id获取书籍
   getBookById(bookId: number): Observable<any> {

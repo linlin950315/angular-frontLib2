@@ -24,7 +24,7 @@ export class BookListComponent implements OnInit {
   pageSize = 15;
   currentPage = 0;
   page = 0;
-  sortBy = '';
+  sortBy = 'bookId';
   descOrAsc = 'ASC';
   searchKeyword: string = '';
   categoryId: number | null = null;  // 允许为空
@@ -90,51 +90,36 @@ export class BookListComponent implements OnInit {
   //     // 绑定 MatSort 和 MatPaginator
   //     this.dataSource.sort = this.sort;
   //     this.dataSource.paginator = this.paginator;
-  //     //this.dataSource.sort.sortables; // 重新绑定排序
-  //     // 手动更新 MatPaginator
+  //this.dataSource.sort.sortables; // 重新绑定排序
+  // 手动更新 MatPaginator
   //     //TODO:this.dataSource.data = data.content|| [];  分页器报错原因不明；如用.data则sort不失效
-  //     //console.log('dataSource', this.dataSource);
-  //     // console.log('totalElements,totalPages=', this.totalElements, this.totalPages);
-  //     // console.log('paginator.length', this.paginator.length);
-  //     // console.log('this.dataSource.sort.sortables', this.dataSource.sort.sortables);
-  //     // console.log("后面要用this.dataSource.paginator:",this.dataSource.paginator);
-  //     // console.log("后面要用this.dataSource.paginator.firstPage():",this.dataSource.paginator.firstPage());
+  //console.log('dataSource', this.dataSource);
+  // console.log('totalElements,totalPages=', this.totalElements, this.totalPages);
+  // console.log('paginator.length', this.paginator.length);
+  // console.log('this.dataSource.sort.sortables', this.dataSource.sort.sortables);
+  // console.log("后面要用this.dataSource.paginator:",this.dataSource.paginator);
+  // console.log("后面要用this.dataSource.paginator.firstPage():",this.dataSource.paginator.firstPage());
   //   });
   // }
   // 加载书籍load all books, sort, page
   loadbook(event: any) {
     console.log('searchBooks start--------');
-    //TODO:从前端取输入的keyword
     const searchKeyword = this.searchKeyword.trim().toLowerCase();  // 使用 this.searchKeyword
-    const categoryId = this.categoryId;
-    //早点判断categoryId是否为空
-    if (!categoryId) {
-      console.log('searchKeyword:', searchKeyword,'categoryId:', categoryId);
-      this.bookService.searchBooks(searchKeyword, this.currentPage, this.pageSize, 'bookId', this.descOrAsc,this.categoryId).subscribe((data: any) => {
-        console.log('searchBooksAPI currentpage' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc:' + this.descOrAsc);
-        //页面显示data取得的信息
-        this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
-        console.log('searchBooks this.dataSource API Response:', this.dataSource);
-        this.totalElements = data.totalElements; // 总条数
-        this.totalPages = data.totalPages // 总页数
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-      });
-    }else{
-      console.log('searchKeyword:', searchKeyword,'categoryId:', categoryId);
-      this.bookService.searchBooks(searchKeyword, this.currentPage, this.pageSize, 'bookId', this.descOrAsc,this.categoryId).subscribe((data: any) => {
-        console.log('searchBooksAPI currentpage' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc:' + this.descOrAsc);
-        //页面显示data取得的信息
-        this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
-        console.log('searchBooks this.dataSource API Response:', this.dataSource);
-        this.totalElements = data.totalElements; // 总条数
-        this.totalPages = data.totalPages // 总页数
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-      });
-    }
-
+    const categoryId = this.categoryId;//从前端取categoryId的时候，就已经把id为空的情况设为空字符串
+    console.log('searchKeyword:', searchKeyword, 'categoryId:', categoryId);
+    this.bookService.searchBooks(searchKeyword, this.currentPage, this.pageSize, 'bookId', this.descOrAsc, this.categoryId).subscribe((data: any) => {
+      console.log('searchBooksAPI currentpage' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc:' + this.descOrAsc);
+      //页面显示data取得的信息
+      this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
+      console.log('searchBooks this.dataSource API Response:', this.dataSource);
+      this.totalElements = data.totalElements; // 总条数
+      this.totalPages = data.totalPages // 总页数
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    });
   }
+
+  //前端各方法
   onPageChange(pageEvent: PageEvent) {
     console.log('Page Event:', pageEvent);
     this.currentPage = pageEvent.pageIndex; //设置当前页 MatPaginator 从 0 开始
@@ -160,6 +145,7 @@ export class BookListComponent implements OnInit {
       //item1, item2, ...：要插入到数组的元素。
     }
   }
+
   deleteBook(): void {
     if (this.selectedBook.length === 0) return;
 
@@ -177,6 +163,7 @@ export class BookListComponent implements OnInit {
       error: err => console.error('删除失败:', err)
     });
   }
+
   addBook() {
     this.router.navigate(['/admin/book/insert']); //仅按钮
   }
@@ -197,9 +184,9 @@ export class BookListComponent implements OnInit {
   readAllsortByName() {
     //最开始loadbook的时候默认asc
     console.log('readAllsortBy name start--------');
-    if (this.descOrAsc === 'ASC') {
+    if (this.descOrAsc === 'ASC') { //delf
       this.descOrAsc = 'DESC';
-      this.bookService.readAllsortBy(this.currentPage, this.pageSize, 'bookName', this.descOrAsc).subscribe((data: any) => {
+      this.bookService.searchBooks(this.searchKeyword, this.currentPage, this.pageSize, 'bookName', this.descOrAsc, this.categoryId).subscribe((data: any) => {
         console.log('Sort Name API currentpage' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc' + this.descOrAsc);
         console.log('Sort Name API Response:', data);
         this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
@@ -210,7 +197,7 @@ export class BookListComponent implements OnInit {
       });
     } else if (this.descOrAsc === 'DESC') {
       this.descOrAsc = 'ASC';
-      this.bookService.readAllsortBy(this.currentPage, this.pageSize, 'bookName', this.descOrAsc).subscribe((data: any) => {
+      this.bookService.searchBooks(this.searchKeyword, this.currentPage, this.pageSize, 'bookName', this.descOrAsc, this.categoryId).subscribe((data: any) => {
         console.log('Sort Name API currentpage' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc' + this.descOrAsc);
         console.log('Sort Name API Response:', data);
         this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
@@ -220,7 +207,6 @@ export class BookListComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       });
     }
-
   }
 
   //点BOOKID排id倒叙
@@ -229,7 +215,7 @@ export class BookListComponent implements OnInit {
     console.log('readAllsortById start--------');
     if (this.descOrAsc === 'ASC') {//delf asc
       this.descOrAsc = 'DESC';
-      this.bookService.readAllsortBy(this.currentPage, this.pageSize, 'bookId', this.descOrAsc).subscribe((data: any) => {
+      this.bookService.searchBooks(this.searchKeyword, this.currentPage, this.pageSize, 'bookId', this.descOrAsc, this.categoryId).subscribe((data: any) => {
         console.log('Sort ID API currentpage' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc:' + this.descOrAsc);
         this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
         this.totalElements = data.totalElements; // 总条数
@@ -240,7 +226,7 @@ export class BookListComponent implements OnInit {
       });
     } else if (this.descOrAsc === 'DESC') { //this.descOrAsc === 'DESC'
       this.descOrAsc = 'ASC';
-      this.bookService.readAllsortBy(this.currentPage, this.pageSize, 'bookId', this.descOrAsc).subscribe((data: any) => {
+      this.bookService.searchBooks(this.searchKeyword, this.currentPage, this.pageSize, 'bookId', this.descOrAsc, this.categoryId).subscribe((data: any) => {
         console.log('Sort ID API currentpage' + this.currentPage + '//size' + this.pageSize + '//sortBy' + this.sortBy + '//descOrAsc:' + this.descOrAsc);
         this.dataSource = data.content || []; // || []确保 data.content 不是 undefined
         this.totalElements = data.totalElements; // 总条数
@@ -250,6 +236,10 @@ export class BookListComponent implements OnInit {
       });
     }
   }
-
-
 }
+
+
+
+
+
+
