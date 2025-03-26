@@ -35,7 +35,8 @@ export class CategoriesComponent implements OnInit {
 
   onCategoryChange(event: any) {//在book-form.component.html中，当用户选择分类时，会触发 onCategoryChange() 方法。
     //在book-form.component.html中触发(categoryChange)方法后传入updateCategoryId
-    const updateCategoryId = Number(event.target.value);
+    //const updateCategoryId = Number(event.target.value);
+    const updateCategoryId = event.target.value;
     this.categoryChange.emit(updateCategoryId);// 触发事件并发送数据
     this.showCategoryId = updateCategoryId;
     //this.categoryChange.emit(updateCategoryId);// 触发事件并发送数据

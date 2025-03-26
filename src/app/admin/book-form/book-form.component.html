@@ -6,11 +6,10 @@
   <input type="text" formControlName="bookName">
   <br>
 
-  <app-categories [showCategoryId]="bookForm.value.categoryId"
-  (categoryChange)="updateCategoryId($event)">
+  <app-categories [showCategoryId]="bookForm.value.categoryId" (categoryChange)="updateCategoryId($event)">
   </app-categories>
   <br>
-<!-- [showCategoryId]是输入绑定@Input；；
+  <!-- [showCategoryId]是输入绑定@Input；；
 事件绑定:(categoryChange)="updateCategoryId($event)"监听子组件的categoryChange事件,并执行函数-->
 
   <label>价格:</label>
@@ -21,8 +20,15 @@
   <input type="number" formControlName="counts">
   <br>
 
-  <label>状态:</label>
+  <label>//状态number:</label>
   <input type="text" formControlName="status">
+  <br>
+
+  <label>状态:</label>
+  <select id="status" input type="text" formControlName="status">
+    <option value="1">可借</option>
+    <option value="2">不可借</option>
+  </select>
   <br>
 
   <label>描述:</label>
@@ -34,4 +40,3 @@
   </button>
   <button type="button" (click)="goBack()">goBack</button>
 </form>
-
