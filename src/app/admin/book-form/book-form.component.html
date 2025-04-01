@@ -12,6 +12,14 @@
   <!-- [showCategoryId]是输入绑定@Input；；
 事件绑定:(categoryChange)="updateCategoryId($event)"监听子组件的categoryChange事件,并执行函数-->
 
+
+  <label>Authors:</label>
+  <ul>
+    <li *ngFor="let authors of bookForm.value.authors">
+      {{ authors.authorId }},{{ authors.authorName }}</li>
+  </ul>
+  <br>
+
   <label>价格:</label>
   <input type="number" formControlName="price">
   <br>
@@ -34,6 +42,7 @@
   <label>描述:</label>
   <textarea formControlName="description"></textarea>
   <br>
+
 
   <button type="button" (click)="onSubmit()">
     {{ isEditMode ? '更新书籍' : '添加书籍' }}

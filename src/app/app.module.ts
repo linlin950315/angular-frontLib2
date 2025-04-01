@@ -14,10 +14,12 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { AuthorsComponent } from './authors/authors.component';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    AuthorsComponent,
 
   ],
   imports: [

@@ -27,7 +27,8 @@ export class BookFormComponent implements OnInit {
       price: new FormControl('', [Validators.required, Validators.min(0)]),
       counts: new FormControl('', [Validators.required, Validators.min(0)]),
       status: new FormControl(''),
-      description: new FormControl('')
+      description: new FormControl(''),
+      authors: new FormControl(''),
     });
     //2.获取bookId
     this.route.paramMap.subscribe(params => {
@@ -55,6 +56,8 @@ export class BookFormComponent implements OnInit {
       this.bookService.getBookById(this.bookId).subscribe(response => {
         console.log('L59bookService被调用response:', response);
         if (response && response.data) {
+          // 显式声明 authors 类型
+        const authors: { authorId: number; authorName: string }[] = response.data.authors || [];
           this.bookForm.patchValue({ //将获取到的数据填充到表单
             bookName: response.data.bookName,
             bookId: response.data.bookId,
@@ -64,6 +67,8 @@ export class BookFormComponent implements OnInit {
             counts: response.data.counts,
             status: response.data.status,
             description: response.data.description,
+            //authors: response.data.authors.map((a: { authorName: any; }) => a.authorName).join(', '),
+            authors:response.data.authors,
           });
           console.log('L69表单数据bookForm', this.bookForm);
         }

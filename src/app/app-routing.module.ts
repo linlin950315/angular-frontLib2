@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: 'admin',
     // 懒加载 Admin 模块
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
-  },
+  }
 
 ];
 
