@@ -12,9 +12,8 @@ export class AuthorsService {
     return this.http.get<any>(`${this.apiUrl}/admin/author/addAuthorsWithCheck`, authorNames);
   }
 
-  getBooksByAuthorId(authorId: any): Observable<any> {
-    console.log('调用 getBooksByAuthorId()', `${this.apiUrl}/admin/author/getBooksByAuthorId/${authorId}`);
-    return this.http.get<any>(`${this.apiUrl}/admin/author/getBooksByAuthorId/${authorId}`);
+  getBooksByAuthorId(authorId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/admin/book/getBooksByAuthorId/${authorId}`);
   }
 
 }

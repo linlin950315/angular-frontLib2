@@ -1,3 +1,23 @@
 <p>authors works!</p>
-
 <button type="button" (click)="goBack()">goBack</button>
+<div class="book">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- 表头行 -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <!-- 数据行 -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!-- ID -->
+    <ng-container matColumnDef="bookId">
+      <th mat-header-cell *matHeaderCellDef> BOOK ID </th>
+      <td mat-cell *matCellDef="let book"> {{ book.bookId }} </td>
+    </ng-container>
+
+    <!-- NAME -->
+    <ng-container matColumnDef="bookName">
+      <th mat-header-cell *matHeaderCellDef> BOOK NAME </th>
+      <td mat-cell *matCellDef="let book"> {{ book.bookName }} </td>
+    </ng-container>
+
+  </table>
+</div>
