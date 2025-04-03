@@ -13,13 +13,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AuthorsModule } from './authors/authors.module';
 import { HomeComponent } from './home/home.component';
-import { AuthorsComponent } from './authors/authors.component';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    AuthorsComponent,
 
   ],
   imports: [
@@ -35,7 +34,8 @@ import { AuthorsComponent } from './authors/authors.component';
     FormsModule,
     MatSortModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    AuthorsModule
   ],
   providers: [
     provideAnimationsAsync('noop')

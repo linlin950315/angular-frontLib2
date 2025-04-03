@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AuthorsComponent } from './authors/authors.component';
 import { HomeComponent } from './home/home.component';
 const routes: Routes = [
   //{ path: '', redirectTo: 'home', pathMatch: 'full' }, // 默认跳转到 home
@@ -8,8 +9,10 @@ const routes: Routes = [
   { path: 'admin',
     // 懒加载 Admin 模块
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
-  }
-
+  },
+  { path: 'authors', component: AuthorsComponent },
+  { path: 'authors',
+    loadChildren: () => import('./authors/authors.module').then(m => m.AuthorsModule) }
 ];
 
 @NgModule({
